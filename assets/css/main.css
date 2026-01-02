@@ -13630,3 +13630,272 @@ table, th, td {
     opacity: 1;
     transform: scale(1);
 }
+
+/* 18. Mobile Responsiveness & Polishing */
+
+@media (max-width: 1399px) {
+    .header-main .logo-image img {
+        max-width: 140px !important;
+    }
+    .hero-section .hero-content h1 {
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 1199px) {
+    .section-padding {
+        padding: 60px 0;
+    }
+    .hero-section .hero-content h1 {
+        font-size: 42px;
+    }
+    .header-main .main-menu {
+        display: none; /* Rely on mobile menu */
+    }
+    .header-main .header-right {
+        gap: 15px;
+    }
+    
+    /* Food Menu Stacking */
+    .food-menu-tab .nav-pills {
+        justify-content: center;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 991px) {
+    /* General Stacking */
+    .about-wrapper .row,
+    .why-choose-us .row,
+    .footer-wrapper .row {
+        gap: 30px;
+    }
+    
+    /* Footer Alignment - Stacked for mobile */
+    .single-footer-widget {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .single-footer-widget .widget-head h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .single-footer-widget .list-area li a {
+        justify-content: center;
+    }
+    .single-footer-widget .social-icon {
+        justify-content: center;
+    }
+    
+    /* Mobile Menu spacing */
+    .mean-container .mean-bar {
+        background: transparent;
+        position: absolute;
+        z-index: 999;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-section {
+        padding-top: 150px; /* Space for header */
+        text-align: center;
+    }
+    .hero-section .hero-content p {
+        margin: 0 auto 20px;
+    }
+    .hero-section .hero-thumb {
+        margin-top: 40px;
+    }
+    
+    /* Tabs on mobile */
+    .food-menu-tab .nav-pills .nav-link {
+        padding: 10px 15px;
+        font-size: 14px;
+        width: 100%; /* Stack tabs full width */
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    
+    /* Adjust Popular Food Items for Mobile */
+    .single-food-items {
+        margin-top: 60px !important;
+        margin-bottom: 40px;
+    }
+    .single-food-items .item-thumb {
+        margin-top: -60px; /* Reduced negative margin */
+    }
+    .single-food-items .item-thumb img {
+        max-width: 150px; /* Smaller image */
+    }
+    
+    /* Typography */
+    h2.title {
+        font-size: 28px !important;
+    }
+    h1 {
+        font-size: 32px !important;
+    }
+    
+    /* Timer/Offer Section */
+    .timer-card {
+        padding: 30px 15px;
+    }
+    .clock-wrapper {
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    /* Offcanvas */
+    .offcanvas__content {
+        width: 300px;
+    }
+}
+
+@media (max-width: 575px) {
+    .header-main {
+        padding: 15px 0;
+    }
+    
+    .single-menu-items {
+        padding: 15px !important;
+    }
+    .single-menu-items .menu-item-thumb {
+        width: 70px;
+        height: 70px;
+    }
+    .single-menu-items .menu-content h3 {
+        font-size: 18px !important;
+    }
+    .single-menu-items h6 {
+        font-size: 16px !important;
+    }
+    .single-menu-items::after {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+        right: 15px;
+        bottom: 15px;
+    }
+}
+
+/* Fix Mobile Menu Background */
+.mean-container .mean-nav {
+    background: #000 !important;
+}
+.mean-container .mean-nav ul li a {
+    border-top: 1px solid #222;
+    color: #fff;
+    opacity: 0.9;
+}
+
+/* 19. Fix Corrupted Sidebar UI & Responsiveness */
+.offcanvas__content {
+    background-color: #1a1a1a !important;
+    padding: 30px 20px !important;
+    width: 350px !important;
+    max-width: 85vw; /* Adjusted for smaller screens */
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    position: fixed; /* Establish context */
+    right: 0;
+    top: 0;
+    z-index: 99999;
+}
+
+/* Ensure mobile menu container doesn't collapse or float */
+.mobile-menu {
+    flex: 0 0 auto; /* Allow it to grow/shrink based on content */
+    margin-bottom: 30px !important;
+    position: relative;
+    z-index: 10;
+    background: transparent !important;
+}
+
+/* Styling the MeanMenu inside Offcanvas */
+.mobile-menu .mean-bar {
+    background: transparent !important;
+    padding: 0;
+    min-height: auto;
+}
+.mobile-menu .mean-nav {
+    background: transparent !important;
+    margin: 0 !important;
+    position: static !important; /* Force static to prevent overlap */
+    width: 100% !important;
+}
+.mobile-menu .mean-nav ul {
+    border: none !important;
+    margin-bottom: 20px;
+}
+.mobile-menu .mean-nav ul li a {
+    background: rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255,255,255,0.05) !important;
+    border-bottom: none !important;
+    color: #ffffff !important; /* Ensure white text */
+    font-size: 16px;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.mobile-menu .mean-nav ul li a:hover {
+    background: var(--theme);
+}
+
+/* Contact Info Section - Push down safely */
+.offcanvas__contact {
+    margin-top: 0; 
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.offcanvas__contact h4 {
+    color: #ffffff !important;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Fix text wrapping and overlapping in contact info */
+.offcanvas__contact-text a {
+    color: #b0b0b0 !important;
+    word-break: break-word; /* Prevent overflow */
+    display: block;
+    line-height: 1.5;
+}
+.offcanvas__contact-list li {
+    margin-bottom: 20px !important; /* More space between items */
+    align-items: flex-start !important;
+}
+.offcanvas__contact-icon i {
+    color: var(--theme);
+    margin-top: 5px; /* Align with first line of text */
+}
+
+/* Hide any remaining white artifacts or red bars */
+.header-section .red-bg, .header-section .black-bg {
+    display: none !important;
+}
+
+/* Ensure Logo area is clean */
+.offcanvas__logo {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.offcanvas__close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 20;
+}
+.offcanvas__close-icon button {
+    background: #333 !important;
+    color: #fff !important;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    opacity: 1;
+}
