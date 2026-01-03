@@ -75,6 +75,28 @@
       background: #000000 !important;
     }
 
+    /* Header Color Fixes - Remove Red */
+    .red-bg,
+    .header-top-wrapper {
+      background-color: #000000 !important;
+      background: #000000 !important;
+    }
+
+    /* Force all header backgrounds to black */
+    .header-section,
+    .black-bg,
+    .red-bg,
+    .header-top-wrapper,
+    .header-1,
+    .sticky {
+      background-color: #000000 !important;
+      background: #000000 !important;
+    }
+
+    .header-top-wrapper {
+      border-bottom: 1px solid #222 !important;
+    }
+
     /* About Us Section Fix */
     .about-us-section,
     .about-wrapper,
@@ -198,6 +220,12 @@
     /* --- Enhanced Menu Section --- */
 
     /* Tabs */
+    .food-menu-tab .nav-pills {
+      width: 100% !important;
+      /* Ensure tabs use full width in mobile */
+      justify-content: center;
+    }
+
     .food-menu-tab .nav-pills .nav-link {
       background: #222 !important;
       border: 1px solid #333 !important;
@@ -318,10 +346,24 @@
         left: 0 !important;
       }
 
+      /* 2x2 Grid for Menu Tabs Mobile */
+      .food-menu-tab .nav-pills {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        /* Two columns */
+        gap: 10px;
+        justify-content: center;
+      }
+
       .food-menu-tab .nav-pills .nav-link {
-        margin: 5px !important;
-        padding: 8px 15px !important;
+        margin: 0 !important;
+        padding: 12px 10px !important;
         font-size: 14px !important;
+        width: 100% !important;
+        text-align: center !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
       }
 
       .footer-top .fancy-box {
