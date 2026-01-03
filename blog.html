@@ -441,112 +441,114 @@
             .page-nav-wrap ul li a {
                 width: 35px;
                 height: 35px;
+            }
 
-                /* Fix Cart Dropdown Visibility */
-                .header__right__dropdown__wrapper {
-                    opacity: 0 !important;
-                    visibility: hidden !important;
-                    transform: translateY(10px) !important;
-                    transition: all 0.3s ease-in-out !important;
-                    z-index: 999 !important;
+            /* Fix Cart Dropdown Visibility */
+            .header__right__dropdown__wrapper {
+                opacity: 0 !important;
+                visibility: hidden !important;
+                transform: translateY(10px) !important;
+                transition: all 0.3s ease-in-out !important;
+                z-index: 999 !important;
+            }
+
+            .header__cart:hover .header__right__dropdown__wrapper {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: translateY(0) !important;
+            }
+
+            /* Offcanvas Menu Dark Mode Fixes */
+            .offcanvas__contact-text a,
+            .offcanvas__contact-text span,
+            .offcanvas__contact h4 {
+                color: #e0e0e0 !important;
+            }
+
+            .offcanvas__contact-text a:hover {
+                color: #d90429 !important;
+            }
+
+            .offcanvas__contact-text {
+                word-break: break-all !important;
+                /* Forces email breaking */
+                overflow-wrap: break-word !important;
+            }
+
+            /* Mobile Menu Link Visibility */
+            .mean-container .mean-nav ul li a {
+                color: #ffffff !important;
+                border-top: 1px solid #333 !important;
+                background: transparent !important;
+            }
+
+            .mean-container .mean-nav ul li a:hover {
+                color: #d90429 !important;
+            }
+
+            .mean-container .mean-bar {
+                background: transparent !important;
+            }
+
+            /* --- Responsive Styles --- */
+            @media (max-width: 767px) {
+                .footer-top .fancy-box {
+                    flex-direction: column !important;
+                    align-items: flex-start !important;
+                    text-align: left !important;
                 }
 
-                .header__cart:hover .header__right__dropdown__wrapper {
-                    opacity: 1 !important;
-                    visibility: visible !important;
-                    transform: translateY(0) !important;
+                .footer-top .fancy-box .item1 {
+                    margin-bottom: 10px !important;
                 }
 
-                /* Offcanvas Menu Dark Mode Fixes */
-                .offcanvas__contact-text a,
-                .offcanvas__contact-text span,
-                .offcanvas__contact h4 {
-                    color: #e0e0e0 !important;
+                .page-nav-wrap ul li a {
+                    width: 35px;
+                    height: 35px;
+                    line-height: 35px;
+                    font-size: 14px;
                 }
 
-                .offcanvas__contact-text a:hover {
-                    color: #d90429 !important;
+                /* Blog Card Fixes */
+                .blog-card.style1 {
+                    padding: 15px !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    max-width: 100% !important;
+                    overflow: hidden !important;
                 }
 
-                .offcanvas__contact-text {
-                    word-break: break-all !important;
-                    /* Forces email breaking */
+                .blog-card.style1 .blog-thumb {
+                    width: 100% !important;
+                    height: auto !important;
+                    margin-bottom: 20px !important;
+                }
+
+                .blog-card.style1 .blog-thumb img {
+                    width: 100% !important;
+                    height: auto !important;
+                }
+
+                .blog-content {
+                    width: 100% !important;
+                    padding: 0 !important;
+                }
+
+                .blog-content h3 {
+                    font-size: 20px !important;
+                    line-height: 1.4 !important;
+                    word-wrap: break-word !important;
+                }
+
+                /* Footer Text Overflow Fix */
+                .footer-top .fancy-box p {
+                    word-break: break-word !important;
                     overflow-wrap: break-word !important;
+                    max-width: 100% !important;
+                    white-space: normal !important;
                 }
-
-                /* Mobile Menu Link Visibility */
-                .mean-container .mean-nav ul li a {
-                    color: #ffffff !important;
-                    border-top: 1px solid #333 !important;
-                    background: transparent !important;
-                }
-
-                .mean-container .mean-nav ul li a:hover {
-                    color: #d90429 !important;
-                }
-
-                .mean-container .mean-bar {
-                    background: transparent !important;
-                }
-
-                /* --- Responsive Styles --- */
-                @media (max-width: 767px) {
-                    .footer-top .fancy-box {
-                        flex-direction: column !important;
-                        align-items: flex-start !important;
-                        text-align: left !important;
-                    }
-
-                    .footer-top .fancy-box .item1 {
-                        margin-bottom: 10px !important;
-                    }
-
-                    .page-nav-wrap ul li a {
-                        width: 35px;
-                        height: 35px;
-                        line-height: 35px;
-                        font-size: 14px;
-                    }
-
-                    /* Blog Card Fixes */
-                    .blog-card.style1 {
-                        padding: 15px !important;
-                        display: flex !important;
-                        flex-direction: column !important;
-                        max-width: 100% !important;
-                        overflow: hidden !important;
-                    }
-
-                    .blog-card.style1 .blog-thumb {
-                        width: 100% !important;
-                        height: auto !important;
-                        margin-bottom: 20px !important;
-                    }
-
-                    .blog-card.style1 .blog-thumb img {
-                        width: 100% !important;
-                        height: auto !important;
-                    }
-
-                    .blog-content {
-                        width: 100% !important;
-                        padding: 0 !important;
-                    }
-
-                    .blog-content h3 {
-                        font-size: 20px !important;
-                        line-height: 1.4 !important;
-                        word-wrap: break-word !important;
-                    }
-
-                    /* Footer Text Overflow Fix */
-                    .footer-top .fancy-box p {
-                        word-break: break-word !important;
-                        overflow-wrap: break-word !important;
-                        max-width: 100% !important;
-                        white-space: normal !important;
-                    }
-                }
+            }
+        }
     </style>
 </head>
 
@@ -616,278 +618,10 @@
         <i class="fa-regular fa-arrow-up"></i>
     </button>
 
-    <!-- Offcanvas Area Start -->
-    <div class="fix-area">
-        <div class="offcanvas__info">
-            <div class="offcanvas__wrapper">
-                <div class="offcanvas__content">
-                    <div class="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
-                        <div class="offcanvas__logo">
-                            <a href="index-2.html">
-                                <img src="assets/img/logo/my-burger-logo-dark.png" alt="logo-img">
-                            </a>
-                        </div>
-                        <div class="offcanvas__close">
-                            <button>
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <p class="text d-none d-lg-block">
-                        This involves interactions between a business and its customers. It's about meeting customers'
-                        needs and resolving their problems. Effective customer service is crucial.
-                    </p>
-                    <div class="offcanvas-gallery-area d-none d-xl-block">
-                        <div class="offcanvas-gallery-items">
-                            <a href="assets/img/header/01.jpg" class="offcanvas-image img-popup">
-                                <img src="assets/img/header/01.jpg" alt="gallery-img">
-                            </a>
-                            <a href="assets/img/header/02.jpg" class="offcanvas-image img-popup">
-                                <img src="assets/img/header/02.jpg" alt="gallery-img">
-                            </a>
-                            <a href="assets/img/header/03.jpg" class="offcanvas-image img-popup">
-                                <img src="assets/img/header/03.jpg" alt="gallery-img">
-                            </a>
-                        </div>
-                        <div class="offcanvas-gallery-items">
-                            <a href="assets/img/header/04.jpg" class="offcanvas-image img-popup">
-                                <img src="assets/img/header/04.jpg" alt="gallery-img">
-                            </a>
-                            <a href="assets/img/header/05.jpg" class="offcanvas-image img-popup">
-                                <img src="assets/img/header/05.jpg" alt="gallery-img">
-                            </a>
-                            <a href="assets/img/header/06.jpg" class="offcanvas-image img-popup">
-                                <img src="assets/img/header/06.jpg" alt="gallery-img">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="mobile-menu fix mb-3"></div>
-                    <div class="offcanvas__contact">
-                        <h4>Contact Info</h4>
-                        <ul>
-                            <li class="d-flex align-items-center">
-                                <div class="offcanvas__contact-icon">
-                                    <i class="fal fa-map-marker-alt"></i>
-                                </div>
-                                <div class="offcanvas__contact-text">
-                                    <a target="_blank" href="#">122/1B/1 Kandy road Thihariya, Kalagedihena, Sri Lanka,
-                                        11875</a>
-                                </div>
-                            </li>
-                            <li class="d-flex align-items-center">
-                                <div class="offcanvas__contact-icon mr-15">
-                                    <i class="fal fa-envelope"></i>
-                                </div>
-                                <div class="offcanvas__contact-text">
-                                    <a href="tel:0332298911"><span
-                                            class="mailto:myburgerfamilyrestaurant03@gmail.com">myburgerfamilyrestaurant03@gmail.com</span></a>
-                                </div>
-                            </li>
-                            <li class="d-flex align-items-center">
-                                <div class="offcanvas__contact-icon mr-15">
-                                    <i class="fal fa-clock"></i>
-                                </div>
-                                <div class="offcanvas__contact-text">
-                                    <a target="_blank" href="#">Mod-friday, 09am -05pm</a>
-                                </div>
-                            </li>
-                            <li class="d-flex align-items-center">
-                                <div class="offcanvas__contact-icon mr-15">
-                                    <i class="far fa-phone"></i>
-                                </div>
-                                <div class="offcanvas__contact-text">
-                                    <a href="tel:+11002345909">0332 298 911 <br> +94 71 115 6323</a>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="header-button mt-4">
-                            <a href="shop.html" class="theme-btn">
-                                <span class="button-content-wrapper d-flex align-items-center justify-content-center">
-                                    <span class="button-icon"><i
-                                            class="fa-sharp fa-regular fa-cart-shopping bg-transparent text-white me-2"></i></span>
-                                    <span class="button-text">ORDER NOW</span>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="social-icon d-flex align-items-center">
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="offcanvas__overlay"></div>
+    <!-- Navbar Placeholder -->
+    <div id="navbar-placeholder"></div>
 
-    <!-- Header Section Start -->
-    <header class="header-section">
-        <div class="black-bg"></div>
-        <div class="red-bg"></div>
-        <div class="container-fluid">
-            <div class="main-header-wrapper">
-                <div class="logo-image">
-                    <a href="index-2.html">
-                        <img src="assets/img/logo/my-burger-logo-new.jpg" alt="img">
-                    </a>
-                </div>
-                <div class="main-header-items">
-                    <div class="header-top-wrapper">
-                        <span><i class="fa-regular fa-clock"></i> 09:00 am - 06:00 pm</span>
-                        <div class="social-icon d-flex align-items-center">
-                            <span>Follow Us:</span>
-                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-youtube"></i></a>
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div id="header-sticky" class="header-1">
-                        <div class="mega-menu-wrapper">
-                            <div class="header-main">
-                                <div class="logo">
-                                    <a href="index-2.html" class="header-logo">
-                                        <img src="assets/img/logo/my-burger-logo-new.jpg" alt="logo-img">
-                                    </a>
-                                </div>
-                                <div class="header-left">
-                                    <div class="mean__menu-wrapper">
-                                        <div class="main-menu">
-                                            <nav id="mobile-menu">
-                                                <ul>
-                                                    <li>
-                                                        <a href="index.html">
-                                                            Home
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="shop-right-sidebar.html">
-                                                            Shop
-                                                        </a>
-                                                    </li>
-                                                    <li class="active menu-thumb">
-                                                        <a href="blog.html">
-                                                            Blog
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="contact.html">
-                                                            Contact Us
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="header-right d-flex justify-content-end align-items-center">
-                                    <a href="#0" class="search-trigger search-icon"><i class="fal fa-search"></i></a>
 
-                                    <div class="header__cart">
-                                        <a href="#"> <i class="fa-sharp fa-regular fa-cart-shopping"></i> </a>
-                                        <div class="header__right__dropdown__wrapper">
-                                            <div class="header__right__dropdown__inner">
-                                                <div class="single__header__right__dropdown">
-
-                                                    <div class="header__right__dropdown__img">
-                                                        <a href="#">
-                                                            <img loading="lazy"
-                                                                src="assets/img/blog/blogRecentThumb3_1.png"
-                                                                alt="photo">
-                                                        </a>
-                                                    </div>
-                                                    <div class="header__right__dropdown__content">
-
-                                                        <a href="shop.html">Fried Chicken</a>
-                                                        <p>1 x <span class="price">$ 80.00</span></p>
-
-                                                    </div>
-                                                    <div class="header__right__dropdown__close">
-                                                        <a href="#"><i class="icofont-close-line"></i></a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="single__header__right__dropdown">
-
-                                                    <div class="header__right__dropdown__img">
-                                                        <a href="#">
-                                                            <img loading="lazy"
-                                                                src="assets/img/blog/blogRecentThumb3_2.png"
-                                                                alt="photo">
-                                                        </a>
-                                                    </div>
-                                                    <div class="header__right__dropdown__content">
-
-                                                        <a href="shop.html">Fried Noodles</a>
-                                                        <p>1 x <span class="price">$ 60.00</span></p>
-
-                                                    </div>
-                                                    <div class="header__right__dropdown__close">
-                                                        <a href="#"><i class="icofont-close-line"></i></a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="single__header__right__dropdown">
-
-                                                    <div class="header__right__dropdown__img">
-                                                        <a href="#">
-                                                            <img loading="lazy"
-                                                                src="assets/img/blog/blogRecentThumb3_3.png"
-                                                                alt="photo">
-                                                        </a>
-                                                    </div>
-                                                    <div class="header__right__dropdown__content">
-
-                                                        <a href="shop.html">Special Pasta</a>
-                                                        <p>1 x <span class="price">$ 70.00</span></p>
-
-                                                    </div>
-                                                    <div class="header__right__dropdown__close">
-                                                        <a href="#"><i class="icofont-close-line"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <p class="dropdown__price">Total: <span>$1,100.00</span>
-                                            </p>
-                                            <div class="header__right__dropdown__button">
-                                                <a href="cart.html" class="theme-btn mb-2">View Cart</a>
-                                                <a href="checkout.html" class="theme-btn style3">Checkout</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <a class="theme-btn" href="menu.html">ORDER NOW <i
-                                            class="fa-sharp fa-regular fa-arrow-right"></i></a>
-                                    <div class="header__hamburger d-xl-block my-auto">
-                                        <div class="sidebar__toggle">
-                                            <i class="fas fa-bars"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Search Area Start -->
-    <div class="search-wrap">
-        <div class="search-inner">
-            <i class="fas fa-times search-close" id="search-close"></i>
-            <div class="search-cell">
-                <form method="get">
-                    <div class="search-field-holder">
-                        <input type="search" class="main-search-input" placeholder="Search...">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- Breadcumb Section   S T A R T -->
     <div class="breadcumb-section">
@@ -898,7 +632,7 @@
                         <div class="breadcumb-content">
                             <h1 class="breadcumb-title">Blog</h1>
                             <ul class="breadcumb-menu">
-                                <li><a href="index-2.html">Home</a></li>
+                                <li><a href="index.html">Home</a></li>
                                 <li class="text-white">/</li>
                                 <li class="active">Blog</li>
                             </ul>
@@ -1096,187 +830,8 @@
         </div>
     </section>
 
-    <!-- Footer Section    S T A R T -->
-    <footer class="footer-section bg-title fix">
-        <div class="footer-widgets-wrapper">
-            <div class="shape1 float-bob-y d-none d-xxl-block"><img src="assets/img/shape/footerShape1_1.png"
-                    alt="shape"></div>
-            <div class="shape2 d-none d-xxl-block"><img src="assets/img/shape/footerShape1_2.png" alt="shape"></div>
-            <div class="shape3 d-none d-xxl-block"><img src="assets/img/shape/footerShape1_3.png" alt="shape"></div>
-            <div class="shape4  d-none d-xxl-block"><img src="assets/img/shape/footerShape1_4.png" alt="shape"></div>
-            <div class="container">
-                <div class="footer-top">
-                    <div class="row gy-4">
-                        <div class="col-lg-4">
-                            <div class="fancy-box">
-                                <div class="item1"><i class="fa-solid fa-location-dot"></i></div>
-                                <div class="item2">
-                                    <h6>address</h6>
-                                    <p>122/1B/1 Kandy road Thihariya, Kalagedihena, Sri Lanka, 11875</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 d-flex justify-content-start justify-content-lg-end">
-                            <div class="fancy-box">
-                                <div class="item1"><i class="fa-solid fa-envelope"></i></div>
-                                <div class="item2">
-                                    <h6>send email</h6>
-                                    <p>myburgerfamilyrestaurant03@gmail.com</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 d-flex justify-content-start justify-content-lg-end">
-                            <div class="fancy-box">
-                                <div class="item1"><i class="fa-regular fa-phone-volume"></i></div>
-                                <div class="item2">
-                                    <h6>call emergency</h6>
-                                    <p>0332 298 911 <br> +94 71 115 6323</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <a href="index-2.html">
-                                    <img src="assets/img/logo/my-burger-logo-new.jpg" alt="logo-img">
-                                </a>
-                            </div>
-                            <div class="footer-content">
-                                <p>
-                                    Welcome to My Burger! We serve the freshest, juiciest burgers in town,
-                                    crafted with love and premium ingredients. Taste the difference today!
-                                </p>
-                                <div class="social-icon d-flex align-items-center">
-                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="#"><i class="fab fa-twitter"></i></a>
-                                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 ps-xl-5 wow fadeInUp" data-wow-delay=".4s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Quick Links</h3>
-                            </div>
-                            <ul class="list-area">
-                                <li>
-                                    <a href="about.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        About Us
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="gallery.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        Our Gallery
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="blog.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        Our Blogs
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="faq.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        FAQ’S
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="contact.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        Contact Us
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 ps-xl-5 wow fadeInUp" data-wow-delay=".4s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Our Menu</h3>
-                            </div>
-                            <ul class="list-area">
-                                <li>
-                                    <a href="menu.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        Burger King
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="menu.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        Burger Special
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="menu.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        Fresh Food
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="menu.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        Vegetable
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="menu.html">
-                                        <i class="fa-solid fa-chevrons-right"></i>
-                                        Desserts
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 ps-xl-5 wow fadeInUp" data-wow-delay=".4s">
-                        <div class="single-footer-widget">
-                            <div class="widget-head">
-                                <h3>Contact Us</h3>
-                            </div>
-                            <ul class="list-area">
-                                <li class="mb-2">
-                                    Monday – Friday: <span class="text-theme-color2"> 8am – 4pm </span>
-                                </li>
-                                <li>
-                                    Saturday: <span class="text-theme-color2"> 8am – 12am </span>
-                                </li>
-                            </ul>
-                            <form action="#" class="mt-4">
-                                <div class="form-control">
-                                    <input class="email" type="email" placeholder="Your email address">
-                                    <button type="submit" class="submit-btn"><i
-                                            class="fa-solid fa-arrow-right-long"></i></button>
-                                </div>
-                                <div class="form-control style2 mt-3">
-                                    <input id="checkbox" name="checkbox" type="checkbox">
-                                    <label for="checkbox">I agree to the <a href="contact.html">Privacy Policy.
-                                        </a></label>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="footer-wrapper d-flex align-items-center justify-content-center">
-                    <p class="wow fadeInLeft" data-wow-delay=".3s">
-                        All Rights Reserved | My Burger | Designed & Developed by Silicon Radon Networks (Pvt) Ltd
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
 
 
@@ -1305,6 +860,8 @@
     <script src="assets/js/nice-select.min.js"></script>
     <!--<< Main.js >>-->
     <script src="assets/js/main.js"></script>
+    <!-- Components Loader -->
+    <script src="assets/js/components-loader.js"></script>
 </body>
 
 
