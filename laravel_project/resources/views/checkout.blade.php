@@ -227,13 +227,15 @@
             }
 
             .cart_table td {
-                display: flex !important;
-                justify-content: space-between !important;
+                display: grid !important;
+                grid-template-columns: 110px 1fr !important; /* Fixed label width + rest for content */
+                gap: 5px !important;
                 align-items: center !important;
                 border-bottom: 1px solid #333 !important;
                 padding: 15px !important;
                 font-size: 14px; 
-                text-align: right;
+                text-align: right !important;
+                width: 100% !important;
             }
             
             .cart_table td:last-child {
@@ -243,19 +245,26 @@
             /* The label (Product, Price, etc.) */
             .cart_table td::before {
                 content: attr(data-title);
+                position: static !important; /* CRITICAL: Override potential absolute positioning */
+                display: block !important;
                 font-weight: 700;
                 color: #fff;
                 text-transform: uppercase;
                 font-size: 12px;
-                flex: 0 0 40%; /* Fixed width for label to prevent overlap */
-                text-align: left;
-                padding-right: 10px;
+                text-align: left !important;
+                width: auto !important;
             }
 
             /* The content (value) */
             .cart_table td > * {
-                flex: 1;
-                text-align: right;
+                text-align: right !important;
+                justify-self: end !important; /* Grid alignment */
+                word-break: break-word;
+            }
+
+            /* Fix for direct text nodes if any (mostly spans now) */
+            .cart_table td {
+                color: #ccc;
             }
 
             /* If direct text node, it's harder to target in flexbox without wrapper. 
@@ -504,8 +513,7 @@
                         </tr>
                         <tr class="woocommerce-shipping-totals shipping">
                             <th>Shipping</th>
-                            <td data-title="Shipping" colspan="4"> Enter your address to view shipping options.
-                            </td>
+                            <td data-title="Shipping" colspan="4"><span> Enter your address to view shipping options </span></td>
                         </tr>
                         <tr class="order-total">
                             <th>Total</th>

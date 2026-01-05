@@ -530,44 +530,110 @@
             }
 
             /* --- Responsive Cart Table --- */
+            .cart_table, .cart_table tbody, .cart_table tr, .cart_table td {
+                display: block !important;
+                width: 100% !important;
+            }
+
             .cart_table thead {
-                display: none;
+                display: none !important;
             }
 
             .cart_table tbody tr {
-                display: block;
                 margin-bottom: 20px;
                 border: 1px solid #333;
                 background: #1a1a1a;
                 border-radius: 8px;
+                overflow: hidden;
+                box-sizing: border-box; /* Ensure padding doesn't affect width */
+                width: auto !important; /* Allow margin to take effect */
+                margin-left: 2px;
+                margin-right: 2px;
             }
 
             .cart_table tbody tr td {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+             
+                justify-content: space-between !important;
+                align-items: center !important;
                 border-bottom: 1px solid #333 !important;
                 padding: 15px !important;
-                text-align: right;
+                font-size: 14px; 
             }
 
             .cart_table tbody tr td:last-child {
                 border-bottom: none !important;
             }
 
+            /* Label (Product, Price, etc.) */
             .cart_table tbody tr td::before {
                 content: attr(data-title);
                 font-weight: 700;
                 color: #fff;
-                margin-right: 15px;
                 text-transform: uppercase;
-                font-size: 14px;
+                font-size: 12px;
+                flex: 0 0 30%; /* Reduced width to prevent overlap */
+                text-align: left;
+                padding-right: 5px;
             }
 
+            /* Content Alignment */
+            .cart_table tbody tr td > * {
+                flex: 1;
+                text-align: right;
+                word-break: break-word; /* Ensure long words wrap */
+                min-width: 0; /* Allow flex item to shrink properly */
+            }
+
+            /* Image Specifics */
             .cart_table .cartimage {
+                display: block;
                 width: 60px;
                 height: 60px;
+                margin-left: auto; /* Push to right */
+            }
+
+            .cart_table .cartimage img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 4px;
+            }
+
+            /* Quantity Control Specifics */
+            .cart_table td[data-title="Quantity"] {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+            }
+
+            .cart_table .quantity {
+                display: inline-flex;
+                align-items: center;
+                justify-content: flex-end;
+                margin-left: 170px; /* Push to right */
+                gap: 5px; /* Space between buttons */
+            }
+            
+            .cart_table .quantity button {
+                 width: 30px; 
+                 height: 30px;
+                 padding: 0;
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+            }
+
+            .cart_table .quantity input {
+                width: 40px;
+                height: 30px;
+                text-align: center;
+                margin: 0;
+            }
+
+            /* Remove Button */
+            .cart_table .remove {
                 margin-left: auto;
+                display: inline-block;
             }
 
             /* Stack Coupon Section and Actions */
@@ -585,15 +651,29 @@
             }
 
             .actions {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
+                display: block !important;
+                text-align: center;
+            }
+            
+            .actions .th-cart-coupon {
+                 margin-bottom: 20px !important;
             }
 
             .actions > .theme-btn {
-                float: none;
-                width: 100%;
-                margin: 0;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                float: none !important;
+                width: 100% !important;
+                margin-bottom: 15px !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                text-align: center !important;
+            }    
+                
+            
+            .actions > .theme-btn:last-child {
+                margin-bottom: 0 !important;
             }
         }
 

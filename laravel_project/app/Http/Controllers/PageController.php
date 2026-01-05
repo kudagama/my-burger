@@ -45,4 +45,14 @@ class PageController extends Controller
     {
         return view('checkout');
     }
+
+    public function profile()
+    {
+        return view('profile');
+    }
+
+    public function myOrders()
+    {
+        return view('my-orders');
+    }
 }
