@@ -34,33 +34,45 @@
                             </div>
                             <h3 class="text-white text-center">Welcome Back</h3>
                             <p class="text-white-50 text-center mb-4">Please Enter Your Details</p>
+
+                            @if (session('status'))
+                                <div class="mb-4 font-medium text-sm text-success text-center">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+
                             <div class="contact-form style2 bg-transparent p-0">
-                                <form class="row" action="{{ route('login.post') }}" method="POST">
+                                <form class="row" action="{{ route('login') }}" method="POST">
                                     @csrf
                                     <div class="col-12 mb-3">
-                                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required>
+                                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" style="background-color: #1a1a1a; border-color: #333; color: #fff;" value="{{ old('email') }}" required autofocus>
                                         @error('email')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-12 mb-3">
                                         <div class="form-ctl position-relative">
-                                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required>
+                                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required autocomplete="current-password">
                                             <div class="icon position-absolute top-50 end-0 translate-middle-y me-3 text-white"><i class="fa-sharp fa-solid fa-eye-slash"></i></div>
+                                            @error('password')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-6 form-group">
-                                        <input id="remember" name="remember" type="checkbox">
-                                        <label for="remember" class="text-white">Remember Me<span class="checkmark"></span></label>
+                                        <input id="remember_me" name="remember" type="checkbox">
+                                        <label for="remember_me" class="text-white">Remember Me<span class="checkmark"></span></label>
                                     </div>
                                     <div class="col-6 d-flex justify-content-end">
-                                        <a href="#" class="text-theme-color">Forgot Password?</a>
+                                        @if (Route::has('password.request'))
+                                            <a href="{{ route('password.request') }}" class="text-theme-color">Forgot Password?</a>
+                                        @endif
                                     </div>
                                     <div class="col-12 mt-3">
                                         <button type="submit" class="theme-btn rounded-5 w-100 mb-3">Log In</button>
                                     </div>
                                     <div class="col-12">
-                                        <h6 class="text-white text-center">Don’t have an account? <a href="{{ route('signup') }}" class="text-theme-color">Sign Up</a></h6>
+                                        <h6 class="text-white text-center">Don’t have an account? <a href="{{ route('register') }}" class="text-theme-color">Sign Up</a></h6>
                                     </div>
                                 </form>
                             </div>

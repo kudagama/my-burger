@@ -22,20 +22,20 @@
         </div>
     </div>
 
-    <!-- Profile Section -->
+    <!-- Profile/Dashboard Section -->
     <div class="account-section section-padding fix">
         <div class="container">
             <div class="account-wrapper bg-white p-1 p-sm-4" style="background-color: #1a1a1a !important; border: 1px solid #333;">
                 <div class="row gx-40 gy-5 gy-md-0">
-                    <!-- Sidebar -->
+                    <!-- Sidebar (Dark Theme) -->
                     <div class="col-lg-4 wow fadeInUp" data-wow-delay=".3s">
                         <div class="account-card bg-color2 p-3 p-sm-5" style="background-color: #0f0f0f !important; border: 1px solid #333;">
                             <div class="profile-header text-center mb-4">
                                 <div class="profile-img mb-3">
-                                    <img src="{{ asset('assets/img/profile/profile.png') }}" alt="User" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid #d90429;">
+                                    <img src="{{ Auth::user()->profile_photo_url }}" alt="User" style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid #d90429; object-fit: cover;">
                                 </div>
-                                <h4 class="text-white">John Doe</h4>
-                                <p class="text-white-50">john.doe@example.com</p>
+                                <h4 class="text-white">{{ Auth::user()->name }}</h4>
+                                <p class="text-white-50">{{ Auth::user()->email }}</p>
                             </div>
                             <div class="profile-nav">
                                 <ul class="nav flex-column nav-pills">
@@ -52,55 +52,104 @@
                                         <a class="nav-link text-white" href="#">Account Details</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-white" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+                                        <a href="javascript:void(0)" onclick="event.preventDefault(); document.getElementById('logout-side-form').submit();" class="nav-link text-white"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+                                        <form id="logout-side-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Content -->
+                    <!-- Dashboard Content (Dark Theme) -->
                     <div class="col-lg-8 wow fadeInUp" data-wow-delay=".5s">
-                        <div class="account-card bg-color2 p-3 p-sm-5" style="background-color: #0f0f0f !important; border: 1px solid #333;">
-                            <h3 class="text-white mb-4">Profile Details</h3>
-                            <form action="#" class="contact-form style2 p-0 bg-transparent">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-group">
-                                            <label class="text-white mb-2">First Name</label>
-                                            <input type="text" class="form-control" value="John" style="background-color: #1a1a1a; border-color: #333; color: #fff;">
-                                        </div>
+                        
+                        <!-- Welcome Banner -->
+                        <div class="dashboard-banner mb-4 p-4 d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #d90429 0%, #ff4d4d 100%); border-radius: 8px; color: white;">
+                            <div class="banner-content">
+                                <h3 class="text-white mb-2" style="font-family: serif; font-style: italic;">WELCOME BACK, {{ strtoupper(strtok(Auth::user()->name, ' ')) }}!</h3>
+                                <p class="mb-0 text-white-50">Manage your orders, profile, and preferences</p>
+                            </div>
+
+                        </div>
+
+                        <!-- Stats Cards -->
+                        <div class="row g-4 mb-4">
+                            <!-- Total Orders -->
+                            <div class="col-md-6">
+                                <div class="stats-card d-flex align-items-center p-3" style="background-color: #0f0f0f; border: 1px solid #333; border-left: 5px solid #d90429; border-radius: 5px;">
+                                    <div class="icon-box me-3 rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background-color: #d90429;">
+                                        <i class="fas fa-shopping-cart text-white fs-4"></i>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <div class="form-group">
-                                            <label class="text-white mb-2">Last Name</label>
-                                            <input type="text" class="form-control" value="Doe" style="background-color: #1a1a1a; border-color: #333; color: #fff;">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <div class="form-group">
-                                            <label class="text-white mb-2">Email Address</label>
-                                            <input type="email" class="form-control" value="john.doe@example.com" style="background-color: #1a1a1a; border-color: #333; color: #fff;">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <div class="form-group">
-                                            <label class="text-white mb-2">Current Password</label>
-                                            <input type="password" class="form-control" placeholder="Leave blank to keep current" style="background-color: #1a1a1a; border-color: #333; color: #fff;">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <div class="form-group">
-                                            <label class="text-white mb-2">New Password (leave blank to leave unchanged)</label>
-                                            <input type="password" class="form-control" style="background-color: #1a1a1a; border-color: #333; color: #fff;">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="theme-btn">Save Changes</button>
+                                    <div class="stats-info">
+                                        <h3 class="mb-0 fw-bold text-white">0</h3>
+                                        <p class="mb-0 text-white-50">Total Orders</p>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+                            <!-- Pending Orders -->
+                            <div class="col-md-6">
+                                <div class="stats-card d-flex align-items-center p-3" style="background-color: #0f0f0f; border: 1px solid #333; border-left: 5px solid #d90429; border-radius: 5px;">
+                                    <div class="icon-box me-3 rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background-color: #d90429;">
+                                        <i class="far fa-clock text-white fs-4"></i>
+                                    </div>
+                                    <div class="stats-info">
+                                        <h3 class="mb-0 fw-bold text-white">0</h3>
+                                        <p class="mb-0 text-white-50">Pending Orders</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Wishlist Items -->
+                            <div class="col-md-6">
+                                <div class="stats-card d-flex align-items-center p-3" style="background-color: #0f0f0f; border: 1px solid #333; border-left: 5px solid #d90429; border-radius: 5px;">
+                                    <div class="icon-box me-3 rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background-color: #d90429;">
+                                        <i class="far fa-heart text-white fs-4"></i>
+                                    </div>
+                                    <div class="stats-info">
+                                        <h3 class="mb-0 fw-bold text-white">0</h3>
+                                        <p class="mb-0 text-white-50">Wishlist Items</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Total Spent -->
+                            <div class="col-md-6">
+                                <div class="stats-card d-flex align-items-center p-3" style="background-color: #0f0f0f; border: 1px solid #333; border-left: 5px solid #d90429; border-radius: 5px;">
+                                    <div class="icon-box me-3 rounded d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; background-color: #d90429;">
+                                        <i class="far fa-wallet text-white fs-4"></i>
+                                    </div>
+                                    <div class="stats-info">
+                                        <h3 class="mb-0 fw-bold text-white">Rs. 0.00</h3>
+                                        <p class="mb-0 text-white-50">Total Spent</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Recent Orders Table -->
+                        <div class="average-order bg-color2 p-3 p-sm-4" style="background-color: #0f0f0f !important; border: 1px solid #333; border-radius: 8px;">
+                            <h4 class="text-white mb-3">Recent Orders</h4>
+                            <div class="table-responsive">
+                                <table class="table text-white mb-0" style="border-color: #333;">
+                                    <thead style="background-color: #1a1a1a;">
+                                        <tr>
+                                            <th class="py-3 ps-3" style="background-color: #1a1a1a; color: white;">ORDER</th>
+                                            <th class="py-3" style="background-color: #1a1a1a; color: white;">DATE</th>
+                                            <th class="py-3" style="background-color: #1a1a1a; color: white;">STATUS</th>
+                                            <th class="py-3 pe-3" style="background-color: #1a1a1a; color: white;">TOTAL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="background-color: transparent !important;">
+                                        <tr style="background-color: transparent !important;">
+                                            <td colspan="4" class="py-4 text-center text-white" style="background-color: transparent !important;">
+                                                You have no orders yet.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -108,7 +157,6 @@
     </div>
 
     <!-- Navbar Placeholder -->
-    <div id="navbar-placeholder"></div>
     <div id="footer-placeholder"></div>
 
     @push('scripts')
@@ -119,7 +167,7 @@
 
 @section('styles')
 <style>
-    /* Custom Profile Styles */
+    /* Custom Profile Styles for Dark Mode */
     .profile-nav .nav-link {
         border-radius: 5px;
         transition: all 0.3s;
@@ -130,16 +178,30 @@
     .profile-nav .nav-link.active {
         background-color: #d90429 !important;
     }
-    .contact-form.style2 input:focus {
-        border-color: #d90429 !important;
+    
+    .stats-card {
+        transition: transform 0.3s ease;
+    }
+    .stats-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Table Overrides */
+    .table th, .table td {
+        border-color: #333 !important;
+        color: #ffffff !important;
+    }
+    .table thead th {
+        color: white;
+        border-bottom: 2px solid #444;
     }
     
     /* Mobile Responsiveness */
     @media (max-width: 767px) {
         .account-wrapper {
-            padding: 15px !important;
+            padding: 10px !important;
         }
-        .account-card {
+        .account-card, .average-order {
             padding: 20px !important;
         }
         .theme-btn {
@@ -147,10 +209,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        .profile-header img {
-            width: 80px !important;
-            height: 80px !important;
         }
     }
 </style>

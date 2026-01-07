@@ -1078,7 +1078,7 @@
     </button>
 
     <!-- Navbar Placeholder -->
-    <div id="navbar-placeholder"></div>
+
 
 
 

@@ -34,17 +34,30 @@
                             </div>
                             <h3 class="text-white text-center">Create Account</h3>
                             <p class="text-white-50 text-center mb-4">Register your details to join us</p>
+                            
+                            <!-- Display overall validation errors (optional, as individual fields have errors) -->
+                            @if ($errors->any())
+                                <div class="mb-4">
+                                    <div class="font-medium text-danger">{{ __('Whoops! Something went wrong.') }}</div>
+                                    <ul class="mt-3 list-disc list-inside text-sm text-danger">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="contact-form style2 bg-transparent p-0">
-                                <form class="row" action="{{ route('signup.post') }}" method="POST">
+                                <form class="row" action="{{ route('register') }}" method="POST">
                                     @csrf
                                     <div class="col-12 mb-3">
-                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Full Name" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required value="{{ old('name') }}">
+                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Full Name" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required value="{{ old('name') }}" autofocus autocomplete="name">
                                         @error('name')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required value="{{ old('email') }}">
+                                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required value="{{ old('email') }}" autocomplete="username">
                                         @error('email')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -57,7 +70,7 @@
                                     </div>
                                     <div class="col-12 mb-3">
                                         <div class="form-ctl position-relative">
-                                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required>
+                                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required autocomplete="new-password">
                                             <div class="icon position-absolute top-50 end-0 translate-middle-y me-3 text-white"><i class="fa-sharp fa-solid fa-eye-slash"></i></div>
                                         </div>
                                         @error('password')
@@ -66,10 +79,25 @@
                                     </div>
                                     <div class="col-12 mb-3">
                                         <div class="form-ctl position-relative">
-                                            <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required>
+                                            <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required autocomplete="new-password">
                                             <div class="icon position-absolute top-50 end-0 translate-middle-y me-3 text-white"><i class="fa-sharp fa-solid fa-eye-slash"></i></div>
                                         </div>
                                     </div>
+
+                                    @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
+                                        <div class="col-12 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="terms" id="terms" required>
+                                                <label class="form-check-label text-white" for="terms">
+                                                    {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                                                            'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="text-theme-color">'.__('Terms of Service').'</a>',
+                                                            'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="text-theme-color">'.__('Privacy Policy').'</a>',
+                                                    ]) !!}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     <div class="col-12 mt-3">
                                         <button type="submit" class="theme-btn rounded-5 w-100 mb-3">Sign Up</button>
                                     </div>
@@ -110,7 +138,7 @@
     .contact-form.style2 input.is-invalid {
         border-color: #dc3545 !important;
     }
-
+    
     /* Mobile Responsiveness */
     @media (max-width: 767px) {
         .account-wrapper {

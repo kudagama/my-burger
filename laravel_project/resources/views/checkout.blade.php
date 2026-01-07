@@ -286,7 +286,7 @@
     </style>
 
     <!-- Navbar Placeholder -->
-    <div id="navbar-placeholder"></div>
+
 
     <!-- Search Area Start -->
     <div class="search-wrap">

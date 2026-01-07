@@ -107,7 +107,7 @@
     </div>
 
     <!-- Navbar Placeholder -->
-    <div id="navbar-placeholder"></div>
+
     <div id="footer-placeholder"></div>
 
     @push('scripts')
