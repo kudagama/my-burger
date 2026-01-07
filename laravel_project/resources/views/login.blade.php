@@ -28,26 +28,30 @@
             <div class="account-wrapper bg-white p-1 p-sm-4" style="background-color: #1a1a1a !important; border: 1px solid #333;">
                 <div class="row gx-40 gy-5 gy-md-0">
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
-                        <div class="account-card bg-color2 p-3 p-sm-5" style="background-color: #0f0f0f !important; border: 1px solid #333;">
+                        <div class="account-card bg-color2 p-3 p-sm-5" style="background-color: transparent !important; border: none !important;">
                             <div class="logo text-center mb-4">
-                                <img src="{{ asset('assets/img/logo/accountLogo.png') }}" alt="logo">
+                                <img src="{{ asset('assets/img/logo/my-burger-auth-logo.png') }}" alt="logo" style="max-width: 150px; height: auto;">
                             </div>
                             <h3 class="text-white text-center">Welcome Back</h3>
                             <p class="text-white-50 text-center mb-4">Please Enter Your Details</p>
                             <div class="contact-form style2 bg-transparent p-0">
-                                <form class="row" action="#">
+                                <form class="row" action="{{ route('login.post') }}" method="POST">
+                                    @csrf
                                     <div class="col-12 mb-3">
-                                        <input type="email" class="form-control" placeholder="Email" style="background-color: #1a1a1a; border-color: #333; color: #fff;">
+                                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required>
+                                        @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-12 mb-3">
                                         <div class="form-ctl position-relative">
-                                            <input type="password" class="form-control" placeholder="Password" style="background-color: #1a1a1a; border-color: #333; color: #fff;">
+                                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" style="background-color: #1a1a1a; border-color: #333; color: #fff;" required>
                                             <div class="icon position-absolute top-50 end-0 translate-middle-y me-3 text-white"><i class="fa-sharp fa-solid fa-eye-slash"></i></div>
                                         </div>
                                     </div>
                                     <div class="col-6 form-group">
-                                        <input id="reviewcheck" name="reviewcheck" type="checkbox">
-                                        <label for="reviewcheck" class="text-white">Remember Me<span class="checkmark"></span></label>
+                                        <input id="remember" name="remember" type="checkbox">
+                                        <label for="remember" class="text-white">Remember Me<span class="checkmark"></span></label>
                                     </div>
                                     <div class="col-6 d-flex justify-content-end">
                                         <a href="#" class="text-theme-color">Forgot Password?</a>
@@ -72,8 +76,7 @@
         </div>
     </div>
 
-    <!-- Navbar Placeholder -->
-    <div id="navbar-placeholder"></div>
+
     <div id="footer-placeholder"></div>
 
     @push('scripts')
@@ -89,6 +92,9 @@
     }
     .contact-form.style2 input:focus {
         border-color: #d90429 !important;
+    }
+    .contact-form.style2 input.is-invalid {
+        border-color: #dc3545 !important;
     }
     
     /* Mobile Responsiveness */

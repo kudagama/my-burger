@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,5 +25,8 @@ Route::get('/cart', [PageController::class, 'cart'])->name('cart');
 Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
 Route::get('/profile', [PageController::class, 'profile'])->name('profile');
 Route::get('/my-orders', [PageController::class, 'myOrders'])->name('my-orders');
-Route::get('/login', [PageController::class, 'login'])->name('login');
-Route::get('/signup', [PageController::class, 'signup'])->name('signup');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::get('/signup', [AuthController::class, 'showSignup'])->name('signup');
+Route::post('/signup', [AuthController::class, 'register'])->name('signup.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -297,10 +297,23 @@
             background-color: #d12525 !important;
         }
 
+        /* Global Placeholder Fix */
+        ::placeholder {
+            color: #999 !important;
+            opacity: 1; /* Firefox */
+        }
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: #999 !important;
+        }
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: #999 !important;
+        }
     </style>
+    @yield('styles')
 </head>
 
 <body class="bg-color2">
+    @include('layouts.navbar')
     <!--<< Mouse Cursor Start >>-->
     <div class="mouse-cursor cursor-outer"></div>
     <div class="mouse-cursor cursor-inner"></div>

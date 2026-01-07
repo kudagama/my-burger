@@ -560,8 +560,7 @@
         <i class="fa-regular fa-arrow-up"></i>
     </button>
 
-    <!-- Navbar Placeholder -->
-    <div id="navbar-placeholder"></div>
+
 
     <!-- Header Section Start -->
 
