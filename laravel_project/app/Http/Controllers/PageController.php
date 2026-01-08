@@ -28,7 +28,20 @@ class PageController extends Controller
 
     public function shop()
     {
-        return view('shop');
+        $products = \App\Models\Product::where('status', 'active')->latest()->paginate(9);
+        $categories = \App\Models\Category::where('is_active', true)->withCount('products')->get();
+        $recentProducts = \App\Models\Product::where('status', 'active')->latest()->take(3)->get();
+        
+        return view('shop', compact('products', 'categories', 'recentProducts'));
+    }
+
+    public function shopDetails($id)
+    {
+        $product = \App\Models\Product::findOrFail($id);
+        $categories = \App\Models\Category::where('is_active', true)->withCount('products')->get();
+        $recentProducts = \App\Models\Product::where('status', 'active')->latest()->take(3)->get();
+        
+        return view('shop-details', compact('product', 'categories', 'recentProducts'));
     }
 
     public function blog()
@@ -43,7 +56,13 @@ class PageController extends Controller
 
     public function checkout()
     {
-        return view('checkout');
+        $cartItems = [];
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $cartItems = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())
+                            ->with('product')
+                            ->get();
+        }
+        return view('checkout', compact('cartItems'));
     }
 
     public function profile()

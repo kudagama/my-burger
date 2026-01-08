@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Load Navbar
-    $("#navbar-placeholder").load("navbar.html", function () {
+    $("#navbar-placeholder").load("/navbar.html", function () {
         console.log("Navbar loaded successfully.");
 
         // 1. Highlight Active Link
@@ -93,7 +93,7 @@ $(document).ready(function () {
     });
 
     // Load Footer
-    $("#footer-placeholder").load("footer.html", function () {
+    $("#footer-placeholder").load("/footer.html", function () {
         console.log("Footer loaded successfully.");
     });
 });

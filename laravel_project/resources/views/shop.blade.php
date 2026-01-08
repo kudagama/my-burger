@@ -736,6 +736,82 @@
             color: #d90429 !important;
             font-weight: bold !important;
         }
+        /* Fix Alignment for Circular Images */
+        .dishes-card.style2 {
+            margin-top: 30px !important; /* Reduce large gap */
+        }
+        .dishes-card.style2 .dishes-thumb {
+            margin-top: 0 !important; /* Remove negative margin (pop-out effect) */
+            margin-bottom: 20px;
+            position: relative; /* Ensure parent is relative for absolute positioning of shape */
+        }
+        
+        .dishes-card.style2 .dishes-thumb .circle-shape {
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 220px !important; /* Slightly larger than the 200px image */
+            height: 220px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dishes-card.style2 .dishes-thumb .circle-shape img {
+             width: 100% !important;
+             height: 100% !important;
+        }
+
+        /* Responsive Grid Overrides to prevent narrow cards */
+        /* XL: 3 Columns instead of 4 */
+        @media (min-width: 1400px) {
+            .dishes-card-wrap.style2 {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+        }
+        /* LG: 2 Columns instead of 3 */
+        @media (min-width: 992px) and (max-width: 1399px) {
+            .dishes-card-wrap.style2 {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+        /* MD (Stacked Layout): 2 Columns is safe */
+        @media (min-width: 768px) and (max-width: 991px) {
+             .dishes-card-wrap.style2 {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+        /* Mobile: 1 Column */
+        @media (max-width: 767px) {
+            .dishes-card-wrap.style2 {
+                grid-template-columns: repeat(1, 1fr) !important;
+            }
+        }
+
+        /* Button Color Override */
+        .theme-btn.style6 {
+            background-color: #ffffff !important;
+            color: #d90429 !important;
+            border: 2px solid #ffffff !important;
+        }
+
+        .theme-btn.style6:hover {
+            background-color: #d90429 !important;
+            color: #ffffff !important;
+            border-color: #d90429 !important;
+        }
+        /* Button Color Override */
+        .theme-btn.style6 {
+            background-color: #ffffff !important;
+            color: #d90429 !important;
+            border: 2px solid #ffffff !important;
+        }
+
+        .theme-btn.style6:hover {
+            background-color: #d90429 !important;
+            color: #ffffff !important;
+            border-color: #d90429 !important;
+        }
     </style>
 </head>
 
@@ -842,7 +918,7 @@
                         <div class="sort-bar">
                             <div class="row g-sm-0 gy-20 justify-content-between align-items-center">
                                 <div class="col-md">
-                                    <p class="woocommerce-result-count">Showing 1 - 12 of 30 Results</p>
+                                    <p class="woocommerce-result-count">Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of {{ $products->total() }} Results</p>
                                 </div>
 
                                 <div class="col-md-auto">
@@ -879,375 +955,68 @@
                             <div class="tab-pane fade show active" id="pills-grid" role="tabpanel"
                                 aria-labelledby="pills-grid-tab" tabindex="0">
                                 <div class="dishes-card-wrap style2">
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.2s">
+                                    @foreach($products as $product)
+                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="{{ 0.2 * ($loop->index % 3 + 1) }}s">
                                         <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_1.png" alt="thumb">
+                                            <img src="{{ $product->image ? asset($product->image) : asset('assets/img/dishes/placeholder.png') }}" 
+                                                 style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; margin: 0 auto; display: block;"
+                                                 alt="{{ $product->name }}">
                                             <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
+                                                    src="{{ asset('assets/img/food-items/circleShape.png') }}" alt="shape"></div>
                                         </div>
                                         <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Crispy Burger</h3>
+                                            <a href="{{ route('shop.details', $product->id) }}">
+                                                <h3>{{ $product->name }}</h3>
                                             </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$24.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
+                                            <div class="star">
+                                                <!-- Static stars for now, or dynamic if we had ratings -->
+                                                <img src="{{ asset('assets/img/icon/star2.svg') }}" alt="icon">
+                                            </div>
+                                            <p class="text">{{ Str::limit($product->description, 50) }}</p>
+                                            <h6>Rs. {{ number_format($product->price, 2) }}</h6>
+                                            <a href="{{ route('shop.details', $product->id) }}" class="theme-btn style6"> Order Now <i
                                                     class="fa-regular fa-basket-shopping"></i></a>
                                         </div>
                                     </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.4s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_2.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Egg and Cucumber</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$28.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.6s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_3.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Chicken Fried Rice</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$20.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.8s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_4.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Chicken Leg Piece</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$58.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dishes-card-wrap style2">
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.2s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_1.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Crispy Burger</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$24.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.4s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_2.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Egg and Cucumber</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$28.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.6s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_3.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Chicken Fried Rice</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$20.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.8s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_4.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Chicken Leg Piece</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$58.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dishes-card-wrap style2">
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.2s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_4.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Crispy Burger</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$24.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.4s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_5.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Egg and Cucumber</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$28.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.6s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_3.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Chicken Fried Rice</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$20.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style2 wow fadeInUp" data-wow-delay="0.8s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_4.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Chicken Leg Piece</h3>
-                                            </a>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">The registration fee</div>
-                                            <h6>$58.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="pills-list" role="tabpanel" aria-labelledby="pills-list-tab"
                                 tabindex="0">
                                 <div class="dishes-card-wrap style3">
-                                    <div class="dishes-card style4 wow fadeInUp" data-wow-delay="0.2s">
+                                    @foreach($products as $product)
+                                    <div class="dishes-card style4 wow fadeInUp" data-wow-delay="{{ 0.2 * ($loop->index % 3 + 1) }}s">
                                         <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_1.png" alt="thumb">
+                                            <img src="{{ $product->image ? asset($product->image) : asset('assets/img/dishes/placeholder.png') }}" 
+                                                 style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; margin: 0 auto; display: block;"
+                                                 alt="{{ $product->name }}">
                                             <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
+                                                    src="{{ asset('assets/img/food-items/circleShape.png') }}" alt="shape"></div>
                                         </div>
                                         <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Crispy Burger</h3>
+                                            <a href="{{ route('shop.details', $product->id) }}">
+                                                <h3>{{ $product->name }}</h3>
                                             </a>
                                             <div class="icon">
                                                 <a href="#"> <i class="fa-regular fa-heart"></i></a>
                                             </div>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">Neque porro est qui dolorem ipsum quia quaed inventor
-                                                veritatis et
-                                                quasi architecto beatae vitae dicta sunt explicabo. Aelltes port lacus
-                                                quis enim
-                                                var sed efficitur turpis gilla sed sit amet finibus eros. Lorem Ipsum is
-                                                simply
-                                                dummy text of the printing and typesetting industry.When an unknown
-                                                printer took
-                                                a galley of type</div>
-                                            <h6>$24.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style4 wow fadeInUp" data-wow-delay="0.4s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_2.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Egg and Cucumber</h3>
-                                            </a>
-                                            <div class="icon">
-                                                <a href="#"> <i class="fa-regular fa-heart"></i></a>
+                                            <div class="star"><img src="{{ asset('assets/img/icon/star2.svg') }}" alt="icon"></div>
+                                            <div class="text">
+                                                {{ $product->description }}
                                             </div>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">Neque porro est qui dolorem ipsum quia quaed inventor
-                                                veritatis et
-                                                quasi architecto beatae vitae dicta sunt explicabo. Aelltes port lacus
-                                                quis enim
-                                                var sed efficitur turpis gilla sed sit amet finibus eros. Lorem Ipsum is
-                                                simply
-                                                dummy text of the printing and typesetting industry.When an unknown
-                                                printer took
-                                                a galley of type</div>
-                                            <h6>$28.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
+                                            <h6>Rs. {{ number_format($product->price, 2) }}</h6>
+                                            <a href="{{ route('shop.details', $product->id) }}" class="theme-btn style6"> Order Now <i
                                                     class="fa-regular fa-basket-shopping"></i></a>
                                         </div>
                                     </div>
-                                    <div class="dishes-card style4 wow fadeInUp" data-wow-delay="0.6s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_3.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Chicken Fried Rice</h3>
-                                            </a>
-                                            <div class="icon">
-                                                <a href="#"> <i class="fa-regular fa-heart"></i></a>
-                                            </div>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">Neque porro est qui dolorem ipsum quia quaed inventor
-                                                veritatis et
-                                                quasi architecto beatae vitae dicta sunt explicabo. Aelltes port lacus
-                                                quis enim
-                                                var sed efficitur turpis gilla sed sit amet finibus eros. Lorem Ipsum is
-                                                simply
-                                                dummy text of the printing and typesetting industry.When an unknown
-                                                printer took
-                                                a galley of type</div>
-                                            <h6>$20.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style4 wow fadeInUp" data-wow-delay="0.8s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_4.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Chicken Leg Piece</h3>
-                                            </a>
-                                            <div class="icon">
-                                                <a href="#"> <i class="fa-regular fa-heart"></i></a>
-                                            </div>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">Neque porro est qui dolorem ipsum quia quaed inventor
-                                                veritatis et
-                                                quasi architecto beatae vitae dicta sunt explicabo. Aelltes port lacus
-                                                quis enim
-                                                var sed efficitur turpis gilla sed sit amet finibus eros. Lorem Ipsum is
-                                                simply
-                                                dummy text of the printing and typesetting industry.When an unknown
-                                                printer took
-                                                a galley of type</div>
-                                            <h6>$58.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="dishes-card style4 wow fadeInUp" data-wow-delay="0.2s">
-                                        <div class="dishes-thumb">
-                                            <img src="assets/img/dishes/dishes2_1.png" alt="thumb">
-                                            <div class="circle-shape"><img class="cir36"
-                                                    src="assets/img/food-items/circleShape.png" alt="shape"></div>
-                                        </div>
-                                        <div class="dishes-content">
-                                            <a href="/shop">
-                                                <h3>Crispy Burger</h3>
-                                            </a>
-                                            <div class="icon">
-                                                <a href="#"> <i class="fa-regular fa-heart"></i></a>
-                                            </div>
-                                            <div class="star"><img src="assets/img/icon/star2.svg" alt="icon"></div>
-                                            <div class="text">Neque porro est qui dolorem ipsum quia quaed inventor
-                                                veritatis et
-                                                quasi architecto beatae vitae dicta sunt explicabo. Aelltes port lacus
-                                                quis enim
-                                                var sed efficitur turpis gilla sed sit amet finibus eros. Lorem Ipsum is
-                                                simply
-                                                dummy text of the printing and typesetting industry.When an unknown
-                                                printer took
-                                                a galley of type</div>
-                                            <h6>$24.00</h6>
-                                            <a href="/shop" class="theme-btn style6"> Order Now <i
-                                                    class="fa-regular fa-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="page-nav-wrap text-center">
-                            <ul>
-                                <li><a class="previous" href="/shop"><i
-                                            class="fa-sharp fa-light fa-arrow-left-long"></i></a></li>
-                                <li><a class="page-numbers" href="/shop">1</a></li>
-                                <li><a class="page-numbers active" href="/shop">2</a></li>
-                                <li><a class="page-numbers" href="/shop">3</a></li>
-                                <li><a class="page-numbers" href="/shop">...</a></li>
-                                <li><a class="next" href="/shop"><i
-                                            class="fa-sharp fa-light fa-arrow-right-long"></i></a></li>
-                            </ul>
+                        <div class="page-nav-wrap text-center mt-5">
+                            {{ $products->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-4 order-2 order-md-1 wow fadeInUp" data-wow-delay=".3s">
@@ -1265,15 +1034,12 @@
                             </div>
                             <div class="single-sidebar-widget">
                                 <h5 class="widget-title">
-                                    Search
+                                    Categories
                                 </h5>
                                 <ul class="tagcloud">
-                                    <li><a href="/shop">Cheese</a></li>
-                                    <li><a href="/shop">Cocktail</a></li>
-                                    <li><a href="/shop">Drink</a></li>
-                                    <li><a href="/shop">Uncategorized</a></li>
-                                    <li><a href="/shop">Burger</a></li>
-                                    <li><a href="/shop">Non Veg</a></li>
+                                    @foreach($categories as $category)
+                                    <li><a href="#">{{ $category->name }}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="single-sidebar-widget">
@@ -1295,13 +1061,13 @@
                                                     <span>Price:</span>
                                                 </div>
                                                 <div class="field">
-                                                    <span>$</span>
+                                                    <span>Rs</span>
                                                     <input type="number" class="input-min" value="100">
                                                 </div>
                                                 <div class="separators">-</div>
                                                 <div class="field">
-                                                    <span>$</span>
-                                                    <input type="number" class="input-max" value="1000">
+                                                    <span>Rs</span>
+                                                    <input type="number" class="input-max" value="5000">
                                                 </div>
                                                 <a href="/shop" class="filter-btn mt-2 me-3">Filter</a>
                                             </div>
@@ -1311,61 +1077,23 @@
                             </div>
                             <div class="single-sidebar-widget">
                                 <h5 class="widget-title">
-                                    Filter By Price
+                                    Recent Items
                                 </h5>
 
+                                @foreach($recentProducts as $recent)
                                 <div class="recent-box">
                                     <div class="recent-thumb">
-                                        <img src="assets/img/shop/recentThumb1_1.png" alt="menu-thumb">
+                                        <img src="{{ $recent->image ? asset($recent->image) : asset('assets/img/dishes/placeholder.png') }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;" alt="thumb">
                                     </div>
                                     <div class="recent-content">
-                                        <a href="/shop"> Ruti With Beef Slice </a>
-                                        <div class="star"><img src="assets/img/icon/star3.svg" alt="icon"></div>
+                                        <a href="#"> {{ $recent->name }} </a>
+                                        <div class="star"><img src="{{ asset('assets/img/icon/star3.svg') }}" alt="icon"></div>
                                         <div class="price">
-                                            <div class="regular-price">35$</div>
-                                            <div class="offer-price">25$</div>
+                                            <div class="offer-price">Rs. {{ number_format($recent->price, 2) }}</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="recent-box">
-                                    <div class="recent-thumb">
-                                        <img src="assets/img/shop/recentThumb1_2.png" alt="menu-thumb">
-                                    </div>
-                                    <div class="recent-content">
-                                        <a href="/shop"> Fast Food Combo </a>
-                                        <div class="star"><img src="assets/img/icon/star3.svg" alt="icon"></div>
-                                        <div class="price">
-                                            <div class="regular-price">95$</div>
-                                            <div class="offer-price">75$</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="recent-box">
-                                    <div class="recent-thumb">
-                                        <img src="assets/img/shop/recentThumb1_3.png" alt="menu-thumb">
-                                    </div>
-                                    <div class="recent-content">
-                                        <a href="/shop"> divicious Salad </a>
-                                        <div class="star"><img src="assets/img/icon/star3.svg" alt="icon"></div>
-                                        <div class="price">
-                                            <div class="regular-price">65$</div>
-                                            <div class="offer-price">55$</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="recent-box">
-                                    <div class="recent-thumb">
-                                        <img src="assets/img/shop/recentThumb1_4.png" alt="menu-thumb">
-                                    </div>
-                                    <div class="recent-content">
-                                        <a href="/shop"> Chiness Pasta </a>
-                                        <div class="star"><img src="assets/img/icon/star3.svg" alt="icon"></div>
-                                        <div class="price">
-                                            <div class="regular-price">45$</div>
-                                            <div class="offer-price">35$</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
