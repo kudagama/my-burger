@@ -24,6 +24,7 @@
         "@inertiajs/vue3": "^2.3.7",
         "@vitejs/plugin-vue": "^6.0.3",
         "apexcharts": "^5.3.6",
+        "sweetalert2": "^11.26.17",
         "vue": "^3.5.26",
         "vue3-apexcharts": "^1.10.0",
         "ziggy-js": "^2.6.0"

@@ -1,25 +1,78 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
-import { MagnifyingGlassIcon, EyeIcon } from '@heroicons/vue/24/outline';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import { MagnifyingGlassIcon, EyeIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
+import { ref } from 'vue';
+import { Dialog, DialogPanel, DialogTitle, TransitionRoot, TransitionChild } from '@headlessui/vue';
 
-// Mock data
-const orders = [
-    { id: '#ORD-7829', customer: 'John Doe', items: 3, total: 45.50, date: '2024-03-10', status: 'Pending' },
-    { id: '#ORD-7828', customer: 'Sarah Smith', items: 1, total: 12.99, date: '2024-03-10', status: 'Completed' },
-    { id: '#ORD-7827', customer: 'Michael Brown', items: 4, total: 56.00, date: '2024-03-09', status: 'Processing' },
-    { id: '#ORD-7826', customer: 'Emily White', items: 2, total: 24.50, date: '2024-03-09', status: 'Cancelled' },
-    { id: '#ORD-7825', customer: 'David Lee', items: 5, total: 78.20, date: '2024-03-08', status: 'Completed' },
-];
+const props = defineProps({
+    orders: Object
+});
+
+const isStatusModalOpen = ref(false);
+const selectedOrder = ref(null);
+const form = useForm({
+    status: '',
+});
+
+const openStatusModal = (order) => {
+    selectedOrder.value = order;
+    form.status = order.status;
+    isStatusModalOpen.value = true;
+};
+
+const closeStatusModal = () => {
+    isStatusModalOpen.value = false;
+    selectedOrder.value = null;
+    form.reset();
+};
+
+const isViewModalOpen = ref(false);
+const viewOrder = ref(null);
+
+const openViewModal = (order) => {
+    viewOrder.value = order;
+    isViewModalOpen.value = true;
+};
+
+const closeViewModal = () => {
+    isViewModalOpen.value = false;
+    viewOrder.value = null;
+};
+
+const getImageUrl = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http') || path.startsWith('/')) {
+        return path;
+    }
+    return '/' + path;
+};
+
+const updateStatus = () => {
+    form.put(route('order.updateStatus', selectedOrder.value.id), {
+        onSuccess: () => {
+            closeStatusModal();
+        },
+    });
+};
 
 const getStatusColor = (status) => {
     switch (status) {
-        case 'Completed': return 'bg-green-500/10 text-green-500 border-green-500/20';
-        case 'Processing': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
-        case 'Pending': return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
-        case 'Cancelled': return 'bg-red-500/10 text-red-500 border-red-500/20';
+        case 'completed': return 'bg-green-500/10 text-green-500 border-green-500/20';
+        case 'processing': return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
+        case 'pending': return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20';
+        case 'cancelled': return 'bg-red-500/10 text-red-500 border-red-500/20';
         default: return 'bg-gray-700 text-gray-300';
     }
+};
+
+const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR' }).format(value);
+};
+
+const formatDate = (dateString) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString();
 };
 </script>
 
@@ -69,21 +122,33 @@ const getStatusColor = (status) => {
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-700">
-                        <tr v-for="order in orders" :key="order.id" class="hover:bg-gray-750 transition-colors">
-                            <td class="p-4 font-medium text-white">{{ order.id }}</td>
-                            <td class="p-4 text-gray-300">{{ order.customer }}</td>
-                            <td class="p-4 text-gray-400 text-sm">{{ order.date }}</td>
-                            <td class="p-4 text-gray-300">{{ order.items }}</td>
-                            <td class="p-4 text-white font-bold">${{ order.total.toFixed(2) }}</td>
+                        <tr v-for="order in orders.data" :key="order.id" class="hover:bg-gray-750 transition-colors">
+                            <td class="p-4 font-medium text-white">#{{ order.id }}</td>
+                            <td class="p-4 text-gray-300">
+                                {{ order.user ? order.user.name : (order.first_name + ' ' + order.last_name) }}
+                            </td>
+                            <td class="p-4 text-gray-400 text-sm">{{ formatDate(order.created_at) }}</td>
+                            <td class="p-4 text-gray-300">{{ order.items ? order.items.length : 0 }}</td>
+                            <td class="p-4 text-white font-bold">{{ formatCurrency(order.total_amount) }}</td>
                             <td class="p-4">
-                                <span :class="['px-2.5 py-1 rounded-full text-xs font-medium border', getStatusColor(order.status)]">
+                                <span :class="['px-2.5 py-1 rounded-full text-xs font-medium border capitalize', getStatusColor(order.status)]">
                                     {{ order.status }}
                                 </span>
                             </td>
                             <td class="p-4 text-right">
-                                <Link :href="route('order.view', order.id.replace('#', ''))" class="inline-flex p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors" title="View Details">
-                                    <EyeIcon class="w-5 h-5" />
-                                </Link>
+                                <div class="flex items-center justify-end gap-2">
+                                     <button @click="openStatusModal(order)" class="p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors" title="Update Status">
+                                        <PencilSquareIcon class="w-5 h-5" />
+                                    </button>
+                                    <button @click="openViewModal(order)" class="inline-flex p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors" title="View Details">
+                                        <EyeIcon class="w-5 h-5" />
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr v-if="orders.data.length === 0">
+                            <td colspan="7" class="p-8 text-center text-gray-400">
+                                No orders found.
                             </td>
                         </tr>
                     </tbody>
@@ -91,14 +156,209 @@ const getStatusColor = (status) => {
             </div>
             
             <!-- Pagination -->
-            <div class="p-4 border-t border-gray-700 flex justify-between items-center text-sm text-gray-400">
-                <span>Showing 1 to 5 of 5 entries</span>
+            <div class="p-4 border-t border-gray-700 flex justify-between items-center text-sm text-gray-400" v-if="orders.links.length > 3">
+                <span>Showing {{ orders.from }} to {{ orders.to }} of {{ orders.total }} entries</span>
                 <div class="flex gap-1">
-                    <button class="px-3 py-1 bg-gray-700 rounded hover:bg-gray-600 disabled:opacity-50" disabled>Prev</button>
-                    <button class="px-3 py-1 bg-red-600 text-white rounded">1</button>
-                    <button class="px-3 py-1 bg-gray-700 rounded hover:bg-gray-600">Next</button>
+                    <Link
+                        v-for="(link, index) in orders.links"
+                        :key="index"
+                        :href="link.url || '#'"
+                        v-html="link.label"
+                        :class="[
+                            'px-3 py-1 rounded transition-colors',
+                            link.active ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-gray-600',
+                            !link.url ? 'opacity-50 cursor-not-allowed' : ''
+                        ]"
+                        :preserve-scroll="true"
+                    />
                 </div>
             </div>
         </div>
+
+        <!-- Status Update Modal -->
+        <TransitionRoot appear :show="isStatusModalOpen" as="template">
+            <Dialog as="div" @close="closeStatusModal" class="relative z-50">
+                <TransitionChild
+                    as="template"
+                    enter="duration-300 ease-out"
+                    enter-from="opacity-0"
+                    enter-to="opacity-100"
+                    leave="duration-200 ease-in"
+                    leave-from="opacity-100"
+                    leave-to="opacity-0"
+                >
+                    <div class="fixed inset-0 bg-black/75" />
+                </TransitionChild>
+
+                <div class="fixed inset-0 overflow-y-auto">
+                    <div class="flex min-h-full items-center justify-center p-4 text-center">
+                        <TransitionChild
+                            as="template"
+                            enter="duration-300 ease-out"
+                            enter-from="opacity-0 scale-95"
+                            enter-to="opacity-100 scale-100"
+                            leave="duration-200 ease-in"
+                            leave-from="opacity-100 scale-100"
+                            leave-to="opacity-0 scale-95"
+                        >
+                            <DialogPanel class="w-full max-w-md transform overflow-hidden rounded-2xl bg-gray-800 p-6 text-left align-middle shadow-xl transition-all border border-gray-700">
+                                <DialogTitle as="h3" class="text-lg font-bold leading-6 text-white mb-4">
+                                    Update Order Status
+                                </DialogTitle>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-400 mb-4">
+                                        Update the status for Order #{{ selectedOrder?.id }}.
+                                    </p>
+                                    <form @submit.prevent="updateStatus">
+                                        <div class="space-y-4">
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-400 mb-1">Status</label>
+                                                <select v-model="form.status" class="w-full bg-gray-900 border border-gray-700 text-gray-300 rounded-lg px-3 py-2 focus:ring-1 focus:ring-red-500 focus:border-red-500">
+                                                    <option value="pending">Pending</option>
+                                                    <option value="processing">Processing</option>
+                                                    <option value="completed">Completed</option>
+                                                    <option value="cancelled">Cancelled</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-6 flex justify-end gap-3">
+                                            <button
+                                                type="button"
+                                                class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-700 rounded-lg hover:bg-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                                                @click="closeStatusModal"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                                                :disabled="form.processing"
+                                            >
+                                                Update Status
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </DialogPanel>
+                        </TransitionChild>
+                    </div>
+                </div>
+            </Dialog>
+        </TransitionRoot>
+
+        <!-- View Order Details Modal -->
+        <TransitionRoot appear :show="isViewModalOpen" as="template">
+            <Dialog as="div" @close="closeViewModal" class="relative z-50">
+                <TransitionChild
+                    as="template"
+                    enter="duration-300 ease-out"
+                    enter-from="opacity-0"
+                    enter-to="opacity-100"
+                    leave="duration-200 ease-in"
+                    leave-from="opacity-100"
+                    leave-to="opacity-0"
+                >
+                    <div class="fixed inset-0 bg-black/75" />
+                </TransitionChild>
+
+                <div class="fixed inset-0 overflow-y-auto">
+                    <div class="flex min-h-full items-center justify-center p-4 text-center">
+                        <TransitionChild
+                            as="template"
+                            enter="duration-300 ease-out"
+                            enter-from="opacity-0 scale-95"
+                            enter-to="opacity-100 scale-100"
+                            leave="duration-200 ease-in"
+                            leave-from="opacity-100 scale-100"
+                            leave-to="opacity-0 scale-95"
+                        >
+                            <DialogPanel class="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-gray-800 p-6 text-left align-middle shadow-xl transition-all border border-gray-700">
+                                <div class="flex justify-between items-start mb-4">
+                                    <DialogTitle as="h3" class="text-xl font-bold leading-6 text-white">
+                                        Order Details #{{ viewOrder?.id }}
+                                    </DialogTitle>
+                                    <button @click="closeViewModal" class="text-gray-400 hover:text-white">
+                                        <span class="sr-only">Close</span>
+                                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div v-if="viewOrder" class="space-y-6">
+                                    <!-- Customer & Order Info -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="bg-gray-900 p-4 rounded-lg">
+                                            <h4 class="text-sm font-medium text-gray-400 uppercase mb-3">Customer Information</h4>
+                                            <div class="space-y-2 text-sm text-white">
+                                                <p><span class="text-gray-500">Name:</span> {{ viewOrder.user ? viewOrder.user.name : viewOrder.first_name + ' ' + viewOrder.last_name }}</p>
+                                                <p><span class="text-gray-500">Email:</span> {{ viewOrder.email }}</p>
+                                                <p><span class="text-gray-500">Phone:</span> {{ viewOrder.phone }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-900 p-4 rounded-lg">
+                                            <h4 class="text-sm font-medium text-gray-400 uppercase mb-3">Order Summary</h4>
+                                            <div class="space-y-2 text-sm text-white">
+                                                <p><span class="text-gray-500">Date:</span> {{ formatDate(viewOrder.created_at) }}</p>
+                                                <p class="flex items-center gap-2">
+                                                    <span class="text-gray-500">Status:</span>
+                                                    <span :class="['px-2 py-0.5 rounded text-xs border capitalize', getStatusColor(viewOrder.status)]">
+                                                        {{ viewOrder.status }}
+                                                    </span>
+                                                </p>
+                                                <p><span class="text-gray-500">Total:</span> <span class="font-bold text-lg text-white">{{ formatCurrency(viewOrder.total_amount) }}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Shipping Address -->
+                                    <div class="bg-gray-900 p-4 rounded-lg">
+                                        <h4 class="text-sm font-medium text-gray-400 uppercase mb-2">Shipping Address</h4>
+                                        <p class="text-sm text-white leading-relaxed">
+                                            {{ viewOrder.address }}, {{ viewOrder.city }}, {{ viewOrder.postcode }}
+                                            <br v-if="viewOrder.notes"><span class="text-gray-500 block mt-1">Note: {{ viewOrder.notes }}</span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Order Items -->
+                                    <div>
+                                        <h4 class="text-sm font-medium text-gray-400 uppercase mb-3">Order Items</h4>
+                                        <div class="bg-gray-900 rounded-lg overflow-hidden border border-gray-700">
+                                            <table class="w-full text-left text-sm">
+                                                <thead class="bg-gray-800 text-gray-400 border-b border-gray-700">
+                                                    <tr>
+                                                        <th class="p-3 font-medium">Product</th>
+                                                        <th class="p-3 font-medium text-center">Qty</th>
+                                                        <th class="p-3 font-medium text-right">Price</th>
+                                                        <th class="p-3 font-medium text-right">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="divide-y divide-gray-700 text-white">
+                                                    <tr v-for="item in viewOrder.items" :key="item.id">
+                                                        <td class="p-3">
+                                                            <div class="flex items-center gap-3">
+                                                                <img v-if="item.product && item.product.image" :src="getImageUrl(item.product.image)" class="w-10 h-10 rounded bg-gray-800 object-cover" />
+                                                                <div v-else class="w-10 h-10 rounded bg-gray-800 flex items-center justify-center text-gray-600">
+                                                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                                                </div>
+                                                                <span>{{ item.product ? item.product.name : 'Unknown Product' }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="p-3 text-center text-gray-300">{{ item.quantity }}</td>
+                                                        <td class="p-3 text-right text-gray-300">{{ formatCurrency(item.price) }}</td>
+                                                        <td class="p-3 text-right font-medium">{{ formatCurrency(item.price * item.quantity) }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </DialogPanel>
+                        </TransitionChild>
+                    </div>
+                </div>
+            </Dialog>
+        </TransitionRoot>
     </DashboardLayout>
 </template>

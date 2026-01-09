@@ -24,6 +24,14 @@ const deleteProduct = (id) => {
         });
     }
 };
+
+const getImageUrl = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http') || path.startsWith('/')) {
+        return path;
+    }
+    return '/' + path;
+};
 </script>
 
 <template>
@@ -79,7 +87,7 @@ const deleteProduct = (id) => {
                         <tr v-for="product in products.data" :key="product.id" class="hover:bg-gray-750 transition-colors group">
                             <td class="p-4">
                                 <div class="flex items-center gap-3">
-                                    <img v-if="product.image" :src="product.image" :alt="product.name" class="w-10 h-10 rounded-lg object-cover bg-gray-700" />
+                                    <img v-if="product.image" :src="getImageUrl(product.image)" :alt="product.name" class="w-10 h-10 rounded-lg object-cover bg-gray-700" />
                                     <div v-else class="w-10 h-10 rounded-lg bg-gray-700 flex items-center justify-center text-gray-500">
                                         <PhotoIcon class="w-6 h-6" />
                                     </div>

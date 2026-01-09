@@ -71,7 +71,8 @@ class AuthController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $user = Auth::user();
+        // Retrieve the authenticated user instance explicitly to ensure access to Model methods like save()
+        $user = User::findOrFail(Auth::id());
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],

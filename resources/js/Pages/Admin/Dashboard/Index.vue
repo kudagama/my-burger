@@ -4,6 +4,18 @@ import { Head } from '@inertiajs/vue3';
 import VueApexCharts from 'vue3-apexcharts';
 import { ArrowUpIcon, ArrowDownIcon, CurrencyDollarIcon, ShoppingCartIcon, UsersIcon, ClipboardDocumentListIcon } from '@heroicons/vue/24/solid';
 
+const props = defineProps({
+    totalRevenue: Number,
+    totalOrders: Number,
+    totalCustomers: Number,
+    pendingOrders: Number,
+    recentActivity: Array,
+});
+
+const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR' }).format(value);
+};
+
 const chartOptions = {
     chart: {
         id: 'sales-analytics',
@@ -55,7 +67,7 @@ const chartSeries = [
                 </div>
                 <h3 class="text-gray-400 text-sm font-medium">Total Revenue</h3>
                 <div class="flex items-end mt-2">
-                    <p class="text-3xl font-bold text-white">$24,500.00</p>
+                    <p class="text-3xl font-bold text-white">{{ formatCurrency(totalRevenue) }}</p>
                     <span class="text-green-500 text-xs font-semibold ml-2 flex items-center mb-1 bg-green-500/10 px-1.5 py-0.5 rounded">
                         <ArrowUpIcon class="w-3 h-3 mr-0.5" /> +12.5%
                     </span>
@@ -69,7 +81,7 @@ const chartSeries = [
                 </div>
                 <h3 class="text-gray-400 text-sm font-medium">Total Orders</h3>
                 <div class="flex items-end mt-2">
-                    <p class="text-3xl font-bold text-white">1,452</p>
+                    <p class="text-3xl font-bold text-white">{{ totalOrders }}</p>
                     <span class="text-green-500 text-xs font-semibold ml-2 flex items-center mb-1 bg-green-500/10 px-1.5 py-0.5 rounded">
                         <ArrowUpIcon class="w-3 h-3 mr-0.5" /> +8.2%
                     </span>
@@ -83,7 +95,7 @@ const chartSeries = [
                 </div>
                 <h3 class="text-gray-400 text-sm font-medium">Total Customers</h3>
                 <div class="flex items-end mt-2">
-                    <p class="text-3xl font-bold text-white">8,542</p>
+                    <p class="text-3xl font-bold text-white">{{ totalCustomers }}</p>
                     <span class="text-red-500 text-xs font-semibold ml-2 flex items-center mb-1 bg-red-500/10 px-1.5 py-0.5 rounded">
                         <ArrowDownIcon class="w-3 h-3 mr-0.5" /> -1.5%
                     </span>
@@ -97,7 +109,7 @@ const chartSeries = [
                 </div>
                 <h3 class="text-gray-400 text-sm font-medium">Pending Orders</h3>
                 <div class="flex items-end mt-2">
-                    <p class="text-3xl font-bold text-white">24</p>
+                    <p class="text-3xl font-bold text-white">{{ pendingOrders }}</p>
                     <span class="text-gray-500 text-xs font-semibold ml-2 mb-1">Needs Attention</span>
                 </div>
             </div>
@@ -124,35 +136,19 @@ const chartSeries = [
             <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
                 <h3 class="text-lg font-bold text-white mb-6">Recent Activity</h3>
                 <div class="space-y-6">
-                    <div class="flex items-start">
+                    <div v-for="activity in recentActivity" :key="activity.id" class="flex items-start">
                         <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0 text-blue-500">
                             <ShoppingCartIcon class="w-5 h-5" />
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-white">New Order #1054</p>
-                            <p class="text-xs text-gray-400 mt-1">2 mins ago</p>
-                            <p class="text-sm text-gray-300 mt-1">Order received from <span class="text-gray-100 font-semibold">John Doe</span></p>
+                            <p class="text-sm font-medium text-white">{{ activity.message }}</p>
+                            <p class="text-xs text-gray-400 mt-1">{{ activity.time }}</p>
+                            <p class="text-sm text-gray-300 mt-1">Order received from <span class="text-gray-100 font-semibold">{{ activity.user }}</span></p>
+                            <p class="text-xs text-green-400 mt-1">{{ formatCurrency(activity.amount) }}</p>
                         </div>
                     </div>
-                    <div class="flex items-start">
-                        <div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 text-green-500">
-                            <UsersIcon class="w-5 h-5" />
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-white">New Customer Registered</p>
-                            <p class="text-xs text-gray-400 mt-1">1 hour ago</p>
-                            <p class="text-sm text-gray-300 mt-1"><span class="text-gray-100 font-semibold">Sarah Smith</span> created an account.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0 text-red-500">
-                            <CurrencyDollarIcon class="w-5 h-5" />
-                        </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-white">Payment Received</p>
-                            <p class="text-xs text-gray-400 mt-1">3 hours ago</p>
-                            <p class="text-sm text-gray-300 mt-1">$450.00 processed via Stripe.</p>
-                        </div>
+                    <div v-if="recentActivity.length === 0" class="text-center text-gray-500 py-4">
+                        No recent activity found.
                     </div>
                 </div>
                 <div class="mt-6 pt-6 border-t border-gray-700 text-center">

@@ -659,6 +659,7 @@
     <script src="{{ asset('assets/js/wow.min.js') }}"></script>
     <script src="{{ asset('assets/js/nice-select.min.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
+    @include('sweetalert::alert')
     @stack('scripts')
 </body>
 </html>
