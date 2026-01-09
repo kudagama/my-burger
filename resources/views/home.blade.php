@@ -492,6 +492,46 @@
         .mean-container .mean-bar {
             background: transparent !important;
         }
+
+        /* Fix for Popular Food Items Circle Alignment */
+        .single-food-items .item-thumb {
+            position: relative !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin: 0 auto 20px auto !important;
+            width: 150px !important;
+            height: 150px !important;
+        }
+
+        .single-food-items .item-thumb > img {
+            position: relative !important;
+            z-index: 2 !important;
+            width: 150px !important;
+            height: 150px !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+        }
+
+        .single-food-items .item-thumb .circle-shape {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 165px !important; /* Reduced from 190px to be closer to the 150px image */
+            height: 165px !important;
+            z-index: 1 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            pointer-events: none !important;
+        }
+
+        .single-food-items .item-thumb .circle-shape img {
+            width: 100% !important;
+            height: 100% !important;
+            /* animation: rotateme 10s linear infinite !important; */ 
+        }
     </style>
 </head>
 
@@ -782,78 +822,28 @@
                 <div class="slider-area mb-n40">
                     <div class="swiper bestFoodItems-slider">
                         <div class="swiper-wrapper">
+                            @foreach($bestFoodProducts as $product)
                             <div class="swiper-slide">
                                 <div class="single-food-items">
                                     <div class="item-thumb">
-                                        <img src="assets/img/food-items/item1_1.png" alt="thumb" />
+                                        <img src="{{ $product->image ? asset($product->image) : asset('assets/img/dishes/placeholder.png') }}"
+                                             style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%; margin: 0 auto; display: block;"
+                                             alt="{{ $product->name }}" />
                                         <div class="circle-shape">
                                             <img class="cir36" src="assets/img/food-items/circleShape.png"
                                                 alt="shape" />
                                         </div>
                                     </div>
                                     <div class="item-content">
-                                        <a href="#">
-                                            <h3>Crispy Burger</h3>
+                                        <a href="{{ route('shop.details', $product->id) }}">
+                                            <h3>{{ $product->name }}</h3>
                                         </a>
-                                        <div class="text">The registration fee</div>
-                                        <h6>LKR 1026.99</h6>
+                                        <div class="text">{{ Str::limit($product->description, 30) }}</div>
+                                        <h6>LKR {{ number_format($product->price, 2) }}</h6>
                                     </div>
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="single-food-items">
-                                    <div class="item-thumb">
-                                        <img src="assets/img/food-items/item1_2.png" alt="thumb" />
-                                        <div class="circle-shape">
-                                            <img class="cir36" src="assets/img/food-items/circleShape.png"
-                                                alt="shape" />
-                                        </div>
-                                    </div>
-                                    <div class="item-content">
-                                        <a href="#">
-                                            <h3>Egg and Cucumber</h3>
-                                        </a>
-                                        <div class="text">The registration fee</div>
-                                        <h6>LKR 1028.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="single-food-items">
-                                    <div class="item-thumb">
-                                        <img src="assets/img/food-items/item1_3.png" alt="thumb" />
-                                        <div class="circle-shape">
-                                            <img class="cir36" src="assets/img/food-items/circleShape.png"
-                                                alt="shape" />
-                                        </div>
-                                    </div>
-                                    <div class="item-content">
-                                        <a href="#">
-                                            <h3>Chicken Fried Rice</h3>
-                                        </a>
-                                        <div class="text">The registration fee</div>
-                                        <h6>LKR 10100.99</h6>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="single-food-items">
-                                    <div class="item-thumb">
-                                        <img src="assets/img/food-items/item1_4.png" alt="thumb" />
-                                        <div class="circle-shape">
-                                            <img class="cir36" src="assets/img/food-items/circleShape.png"
-                                                alt="shape" />
-                                        </div>
-                                    </div>
-                                    <div class="item-content">
-                                        <a href="#">
-                                            <h3>Chicken Leg Piece</h3>
-                                        </a>
-                                        <div class="text">The registration fee</div>
-                                        <h6>LKR 1020.99</h6>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
 
@@ -1000,122 +990,32 @@
                     </h2>
                 </div>
                 <div class="dishes-card-wrap style1">
-                    <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.2s">
+                    @foreach($popularProducts as $product)
+                    <div class="dishes-card style1 wow fadeInUp" data-wow-delay="{{ 0.2 * ($loop->index + 1) }}s">
                         <div class="dishes-thumb">
-                            <img src="assets/img/dishes/dishes1_1.png" alt="thmb" />
+                            <img src="{{ $product->image ? asset($product->image) : asset('assets/img/dishes/placeholder.png') }}" 
+                                 style="width: 250px; height: 250px; object-fit: cover; border-radius: 50%; display: block; margin: 0 auto;"
+                                 alt="{{ $product->name }}" />
                         </div>
-                        <a href="#">
-                            <h3>Chicken Fried Rice</h3>
+                        <a href="{{ route('shop.details', $product->id) }}">
+                            <h3>{{ $product->name }}</h3>
                         </a>
-                        <p>The registration fee</p>
-                        <h6>LKR 10100.99</h6>
+                        <p>{{ Str::limit($product->description, 50) }}</p>
+                        <h6>LKR {{ number_format($product->price, 2) }}</h6>
                         <div class="social-profile">
                             <span class="plus-btn">
                                 <a href="#"> <i class="fa-regular fa-heart"></i></a></span>
                             <ul>
                                 <li>
-                                    <a href="#"><i class="fa-regular fa-basket-shopping-simple"></i></a>
+                                    <a href="{{ route('shop.details', $product->id) }}"><i class="fa-regular fa-basket-shopping-simple"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                            class="fa-light fa-eye"></i></a>
+                                    <a href="{{ route('shop.details', $product->id) }}"><i class="fa-light fa-eye"></i></a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="social-profile">
-                            <span class="plus-btn">
-                                <a href="#"> <i class="fa-regular fa-heart"></i></a></span>
-                            <ul>
-                                <li>
-                                    <a href="#"><i class="fa-regular fa-basket-shopping-simple"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                            class="fa-light fa-eye"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="dishes-thumb">
-                            <img src="assets/img/dishes/dishes1_2.png" alt="thmb" />
-                        </div>
-                        <a href="#">
-                            <h3>Chinese Pasta</h3>
-                        </a>
-                        <p>The registration fee</p>
-                        <h6>LKR 1015.99</h6>
-                    </div>
-                    <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="social-profile">
-                            <span class="plus-btn">
-                                <a href="#"> <i class="fa-regular fa-heart"></i></a></span>
-                            <ul>
-                                <li>
-                                    <a href="#"><i class="fa-regular fa-basket-shopping-simple"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                            class="fa-light fa-eye"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="dishes-thumb">
-                            <img src="assets/img/dishes/dishes1_3.png" alt="thmb" />
-                        </div>
-                        <a href="#">
-                            <h3>Crispy Burger</h3>
-                        </a>
-                        <p>The registration fee</p>
-                        <h6>LKR 1026.99</h6>
-                    </div>
-                    <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.8s">
-                        <div class="social-profile">
-                            <span class="plus-btn">
-                                <a href="#"> <i class="fa-regular fa-heart"></i></a></span>
-                            <ul>
-                                <li>
-                                    <a href="#"><i class="fa-regular fa-basket-shopping-simple"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                            class="fa-light fa-eye"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="dishes-thumb">
-                            <img src="assets/img/dishes/dishes1_4.png" alt="thmb" />
-                        </div>
-                        <a href="#">
-                            <h3>Chicken Noodles</h3>
-                        </a>
-                        <p>The registration fee</p>
-                        <h6>LKR 1039.00</h6>
-                    </div>
-                    <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.9s">
-                        <div class="social-profile">
-                            <span class="plus-btn">
-                                <a href="wishlist.html">
-                                    <i class="fa-regular fa-heart"></i></a></span>
-                            <ul>
-                                <li>
-                                    <a href="#"><i class="fa-regular fa-basket-shopping-simple"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                                            class="fa-light fa-eye"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="dishes-thumb">
-                            <img src="assets/img/dishes/dishes1_5.png" alt="thmb" />
-                        </div>
-                        <a href="#">
-                            <h3>Grilled Chicken</h3>
-                        </a>
-                        <p>The registration fee</p>
-                        <h6>LKR 1020.99</h6>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="btn-wrapper wow fadeInUp" data-wow-delay="0.9s">
                     <a class="theme-btn" href="menu2.html">VIEW ALL ITEM <i
@@ -1293,674 +1193,62 @@
                     </div>
 
                     <div class="food-menu-tab">
+                        @php
+                            $icons = ['menuIcon1_1.png', 'menuIcon1_2.png', 'menuIcon1_3.png', 'menuIcon1_4.png'];
+                            // Default categories if none passed (fallback, though controller should pass them)
+                            $menuCategories = $menuCategories ?? collect();
+                        @endphp
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            @foreach($menuCategories as $index => $category)
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-FastFood-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-FastFood" type="button" role="tab"
-                                    aria-controls="pills-FastFood" aria-selected="true">
-                                    <img src="assets/img/menu/menuIcon1_1.png" alt="icon" />Fast
-                                    Food
+                                <button class="nav-link {{ $index == 0 ? 'active' : '' }}" id="pills-{{ $category->id }}-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-{{ $category->id }}" type="button" role="tab"
+                                    aria-controls="pills-{{ $category->id }}" aria-selected="{{ $index == 0 ? 'true' : 'false' }}">
+                                    <img src="assets/img/menu/{{ $icons[$index % count($icons)] }}" alt="icon" />{{ $category->name }}
                                 </button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-drinkJuice-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-drinkJuice" type="button" role="tab"
-                                    aria-controls="pills-drinkJuice" aria-selected="false">
-                                    <img src="assets/img/menu/menuIcon1_2.png" alt="icon" />Drink & Juice
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-crispyBurger-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-crispyBurger" type="button" role="tab"
-                                    aria-controls="pills-crispyBurger" aria-selected="false">
-                                    <img src="assets/img/menu/menuIcon1_3.png" alt="icon" />Crispy Burger
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-freshPasta-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-freshPasta" type="button" role="tab"
-                                    aria-controls="pills-freshPasta" aria-selected="false">
-                                    <img src="assets/img/menu/menuIcon1_4.png" alt="icon" />Fresh Pasta
-                                </button>
-                            </li>
+                            @endforeach
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-FastFood" role="tabpanel"
-                                aria-labelledby="pills-FastFood-tab" tabindex="0">
+                            @foreach($menuCategories as $index => $category)
+                            <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" id="pills-{{ $category->id }}" role="tabpanel"
+                                aria-labelledby="pills-{{ $category->id }}-tab" tabindex="0">
                                 <div class="row gx-60">
+                                    @php
+                                        // Use split(2) to divide products into roughly 2 columns.
+                                        // If there are no products, split returns empty.
+                                        $chunks = $category->products->split(2);
+                                    @endphp
+                                    @foreach($chunks as $chunk)
                                     <div class="col-lg-6">
+                                        @foreach($chunk as $product)
                                         <div class="single-menu-items">
                                             <div class="details">
                                                 <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_1.png" alt="thumb" />
+                                                    <img src="{{ $product->image ? asset($product->image) : asset('assets/img/dishes/placeholder.png') }}" 
+                                                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%;" 
+                                                         alt="{{ $product->name }}" />
                                                 </div>
                                                 <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3 class="active">Chinese Pasta</h3>
+                                                    <a href="{{ route('shop.details', $product->id) }}">
+                                                        <h3>{{ $product->name }}</h3>
                                                     </a>
-                                                    <p>It's a testament to our.</p>
+                                                    <p>{{ Str::limit($product->description, 30) }}</p>
                                                 </div>
                                             </div>
-
-                                            <h6>LKR 1015.99</h6>
+                                            <h6>LKR {{ number_format($product->price, 2) }}</h6>
                                         </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_2.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken Fried Rice</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1025.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_3.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Crispy Burger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10115.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_4.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken Noodles</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10154.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_5.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Grilled Chicken</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1055.99</h6>
-                                        </div>
+                                        @endforeach
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_6.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Egg and Cucumber</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1065.99</h6>
+                                    @endforeach
+                                    @if($category->products->isEmpty())
+                                        <div class="col-12 text-center">
+                                            <p style="color: var(--text);">No products available in this category.</p>
                                         </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_7.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken White Rice</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10135.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_8.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Spatial Barger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1095.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_9.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Vegetables Burger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1075.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_10.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Brief Chicken</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1044.99</h6>
-                                        </div>
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="pills-drinkJuice" role="tabpanel"
-                                aria-labelledby="pills-drinkJuice-tab" tabindex="0">
-                                <div class="row gx-30">
-                                    <div class="col-lg-6">
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_1.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chinese Pasta</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1015.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_2.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken Fried Rice</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1025.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_3.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Crispy Burger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10115.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_4.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken Noodles</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10154.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_5.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Grilled Chicken</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1055.99</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_6.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Egg and Cucumber</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1065.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_7.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken White Rice</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10135.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_8.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Spatial Barger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1095.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_9.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Vegetables Burger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1075.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_10.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Brief Chicken</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1044.99</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-crispyBurger" role="tabpanel"
-                                aria-labelledby="pills-crispyBurger-tab" tabindex="0">
-                                <div class="row gx-30">
-                                    <div class="col-lg-6">
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_1.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chinese Pasta</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1015.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_2.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken Fried Rice</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1025.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_3.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Crispy Burger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10115.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_4.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken Noodles</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10154.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_5.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Grilled Chicken</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1055.99</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_6.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Egg and Cucumber</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1065.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_7.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken White Rice</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10135.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_8.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Spatial Barger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1095.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_9.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Vegetables Burger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1075.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_10.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Brief Chicken</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1044.99</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="pills-freshPasta" role="tabpanel"
-                                aria-labelledby="pills-freshPasta-tab" tabindex="0">
-                                <div class="row gx-30">
-                                    <div class="col-lg-6">
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_1.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chinese Pasta</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1015.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_2.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken Fried Rice</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1025.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_3.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Crispy Burger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10115.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_4.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken Noodles</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10154.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_5.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Grilled Chicken</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1055.99</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_6.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Egg and Cucumber</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1065.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_7.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Chicken White Rice</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 10135.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_8.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Spatial Barger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1095.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_9.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Vegetables Burger</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1075.99</h6>
-                                        </div>
-                                        <div class="single-menu-items">
-                                            <div class="details">
-                                                <div class="menu-item-thumb">
-                                                    <img src="assets/img/menu/menuThumb1_10.png" alt="thumb" />
-                                                </div>
-                                                <div class="menu-content">
-                                                    <a href="#">
-                                                        <h3>Brief Chicken</h3>
-                                                    </a>
-                                                    <p>It's a testament to our.</p>
-                                                </div>
-                                            </div>
-
-                                            <h6>LKR 1044.99</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

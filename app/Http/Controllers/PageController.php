@@ -8,7 +8,20 @@ class PageController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $popularProducts = \App\Models\Product::where('status', 'active')->inRandomOrder()->take(4)->get();
+        $bestFoodProducts = \App\Models\Product::where('status', 'active')->latest()->take(4)->get();
+        
+        $menuCategories = \App\Models\Category::where('is_active', true)
+            ->whereHas('products', function($query) {
+                $query->where('status', 'active');
+            })
+            ->with(['products' => function($query) {
+                $query->where('status', 'active')->take(10);
+            }])
+            ->take(4)
+            ->get();
+
+        return view('home', compact('popularProducts', 'bestFoodProducts', 'menuCategories'));
     }
 
     public function menu()
@@ -26,9 +39,52 @@ class PageController extends Controller
         return view('about');
     }
 
-    public function shop()
+    public function shop(Request $request)
     {
-        $products = \App\Models\Product::where('status', 'active')->latest()->paginate(9);
+        $query = \App\Models\Product::where('status', 'active');
+
+        // Search
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Category Filter
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
+        }
+
+        // Price Filter
+        if ($request->has('min_price') && $request->has('max_price')) {
+            $query->whereBetween('price', [$request->min_price, $request->max_price]);
+        }
+
+        // Sorting
+        if ($request->has('orderby')) {
+            switch ($request->orderby) {
+                case 'popularity':
+                    $query->orderBy('created_at', 'desc'); // Placeholder for popularity
+                    break;
+                case 'rating':
+                    $query->orderBy('created_at', 'desc'); // Placeholder for rating
+                    break;
+                case 'date':
+                    $query->latest();
+                    break;
+                case 'price':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price-desc':
+                    $query->orderBy('price', 'desc');
+                    break;
+                default:
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        } else {
+            $query->latest();
+        }
+
+        $products = $query->paginate(9)->appends($request->all());
         $categories = \App\Models\Category::where('is_active', true)->withCount('products')->get();
         $recentProducts = \App\Models\Product::where('status', 'active')->latest()->take(3)->get();
         

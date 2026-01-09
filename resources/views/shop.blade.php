@@ -922,14 +922,17 @@
                                 </div>
 
                                 <div class="col-md-auto">
-                                    <form class="woocommerce-ordering" method="get">
-                                        <select name="orderby" class="single-select" aria-label="Shop order">
-                                            <option value="menu_order" selected="selected">Default Sorting</option>
-                                            <option value="popularity">Sort by popularity</option>
-                                            <option value="rating">Sort by average rating</option>
-                                            <option value="date">Sort by latest</option>
-                                            <option value="price">Sort by price: low to high</option>
-                                            <option value="price-desc">Sort by price: high to low</option>
+                                    <form class="woocommerce-ordering" method="get" action="{{ route('shop') }}">
+                                        @foreach(request()->except(['orderby', 'page']) as $key => $value)
+                                            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                        @endforeach
+                                        <select name="orderby" class="single-select" aria-label="Shop order" onchange="this.form.submit()">
+                                            <option value="menu_order" {{ request('orderby') == 'menu_order' ? 'selected' : '' }}>Default Sorting</option>
+                                            <option value="popularity" {{ request('orderby') == 'popularity' ? 'selected' : '' }}>Sort by popularity</option>
+                                            <option value="rating" {{ request('orderby') == 'rating' ? 'selected' : '' }}>Sort by average rating</option>
+                                            <option value="date" {{ request('orderby') == 'date' ? 'selected' : '' }}>Sort by latest</option>
+                                            <option value="price" {{ request('orderby') == 'price' ? 'selected' : '' }}>Sort by price: low to high</option>
+                                            <option value="price-desc" {{ request('orderby') == 'price-desc' ? 'selected' : '' }}>Sort by price: high to low</option>
                                         </select>
                                     </form>
                                 </div>
@@ -1021,14 +1024,22 @@
                     </div>
                     <div class="col-xl-3 col-lg-4 order-2 order-md-1 wow fadeInUp" data-wow-delay=".3s">
                         <div class="main-sidebar">
+                            @if(request('search') || request('category') || request('min_price') || request('max_price'))
+                            <div class="single-sidebar-widget">
+                                <h5 class="widget-title">Active Filters</h5>
+                                <a href="{{ route('shop') }}" class="theme-btn style6 w-100 text-center" style="display: block; padding: 12px; background-color: #d90429 !important; color: white !important; border: none !important;">
+                                    Clear All Filters <i class="fa-regular fa-times"></i>
+                                </a>
+                            </div>
+                            @endif
                             <div class="single-sidebar-widget">
                                 <h5 class="widget-title">
                                     Search
                                 </h5>
                                 <div class="search-widget">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search here">
-                                        <button><i class="fa-light fa-magnifying-glass"></i></button>
+                                    <form action="{{ route('shop') }}" method="GET">
+                                        <input type="text" name="search" placeholder="Search here" value="{{ request('search') }}">
+                                        <button type="submit"><i class="fa-light fa-magnifying-glass"></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -1038,7 +1049,7 @@
                                 </h5>
                                 <ul class="tagcloud">
                                     @foreach($categories as $category)
-                                    <li><a href="#">{{ $category->name }}</a></li>
+                                    <li><a href="{{ route('shop', array_merge(request()->query(), ['category' => $category->id])) }}" class="{{ request('category') == $category->id ? 'active-category' : '' }}" style="{{ request('category') == $category->id ? 'background-color: #d90429; color: #fff; border-color: #d90429;' : '' }}">{{ $category->name }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -1046,34 +1057,24 @@
                                 <h5 class="widget-title">
                                     Filter By Price
                                 </h5>
-                                <div class="range__barcustom">
-                                    <div class="slider">
-                                        <div class="progress" style="left: 15.29%; right: 58.9%;"></div>
-                                    </div>
-                                    <div class="range-input">
-                                        <input type="range" class="range-min" min="0" max="10000" value="2500">
-                                        <input type="range" class="range-max" min="100" max="10000" value="7500">
-                                    </div>
-                                    <div class="range-items">
-                                        <div class="price-input">
-                                            <div class="price-wrapper d-flex align-items-center gap-1">
-                                                <div class="field">
-                                                    <span>Price:</span>
-                                                </div>
-                                                <div class="field">
-                                                    <span>Rs</span>
-                                                    <input type="number" class="input-min" value="100">
-                                                </div>
-                                                <div class="separators">-</div>
-                                                <div class="field">
-                                                    <span>Rs</span>
-                                                    <input type="number" class="input-max" value="5000">
-                                                </div>
-                                                <a href="/shop" class="filter-btn mt-2 me-3">Filter</a>
+                                <form action="{{ route('shop') }}" method="GET">
+                                    @foreach(request()->except(['min_price', 'max_price', 'page']) as $key => $value)
+                                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                    @endforeach
+                                    <div class="filter-price-content">
+                                        <div class="d-flex align-items-center gap-2 mb-3">
+                                            <div class="input-wrap w-50">
+                                                <input type="number" name="min_price" class="form-control" placeholder="Min - 00" value="{{ request('min_price') }}" style="height: 50px; background-color: var(--bg2); border: 1px solid var(--border-2); color: var(--text);">
+                                            </div>
+                                            <div class="input-wrap w-50">
+                                                <input type="number" name="max_price" class="form-control" placeholder="Max - 50000" value="{{ request('max_price') }}" style="height: 50px; background-color: var(--bg2); border: 1px solid var(--border-2); color: var(--text);">
                                             </div>
                                         </div>
+                                        <button type="submit" class="theme-btn style6 w-100 justify-content-center text-center">
+                                            Search <i class="fa-regular fa-magnifying-glass"></i>
+                                        </button>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                             <div class="single-sidebar-widget">
                                 <h5 class="widget-title">
