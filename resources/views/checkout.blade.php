@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('content')
+@section('styles')
     <style>
         /* Severe Dark Mode Overrides */
         body,
@@ -297,44 +297,9 @@
             color: #fff !important;
         }
     </style>
+@endsection
 
-    <!-- Navbar Placeholder -->
-
-
-    <!-- Search Area Start -->
-    <div class="search-wrap">
-        <div class="search-inner">
-            <i class="fas fa-times search-close" id="search-close"></i>
-            <div class="search-cell">
-                <form method="get">
-                    <div class="search-field-holder">
-                        <input type="search" class="main-search-input" placeholder="Search...">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Breadcumb Section   S T A R T -->
-    <div class="breadcumb-section">
-        <div class="breadcumb-wrapper">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="breadcumb-content">
-                            <h1 class="breadcumb-title">Checkout</h1>
-                            <ul class="breadcumb-menu">
-                                <li><a href="/">Home</a></li>
-                                <li class="text-white">/</li>
-                                <li class="active">Checkout</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+@section('content')
     <div class="th-checkout-wrapper section-padding fix">
         <div class="container">
             <form action="{{ route('checkout.place') }}" method="POST" class="checkout-form">
@@ -453,11 +418,4 @@
         </div>
     </div>
 
-    <!-- Footer Placeholder -->
-    <div id="footer-placeholder"></div>
 @endsection
- 
-@push('scripts')
-    <!-- Components Loader -->
-    <script src="{{ asset('assets/js/components-loader.js') }}"></script>
-@endpush

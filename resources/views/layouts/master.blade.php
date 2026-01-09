@@ -308,6 +308,27 @@
         ::-ms-input-placeholder { /* Microsoft Edge */
             color: #999 !important;
         }
+
+        /* SweetAlert2 Dark Theme Customization */
+        div:where(.swal2-container) div:where(.swal2-popup) {
+            background-color: #1a1a1a !important;
+            border: 1px solid #333 !important;
+            color: #ffffff !important;
+            border-radius: 10px !important;
+        }
+        div:where(.swal2-container) h2:where(.swal2-title),
+        div:where(.swal2-container) div:where(.swal2-html-container) {
+            color: #ffffff !important;
+        }
+        div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+            background-color: #d12525 !important;
+            color: #fff !important;
+            border: none !important;
+            box-shadow: none !important; 
+        }
+        div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm:focus {
+            box-shadow: 0 0 0 3px rgba(209, 37, 37, 0.5) !important;
+        }
     </style>
     @yield('styles')
 </head>
@@ -529,7 +550,7 @@
     @yield('content')
 
 
-{{-- 
+
     <!-- Footer Section    S T A R T -->
     <footer class="footer-section bg-title fix">
         <div class="footer-widgets-wrapper">
@@ -644,7 +665,7 @@
             </div>
         </div>
     </footer>
- --}}
+
 
     <!--<< All JS Plugins >>-->
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>

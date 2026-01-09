@@ -1,35 +1,5 @@
 @extends('layouts.master')
-@section('content')
-<!DOCTYPE html>
-<html lang="zxx">
-
-<head>
-    <!-- ========== Meta Tags ========== -->
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="gramentheme">
-    <meta name="description" content="My Burger - Food & Restaurant">
-    <!-- ======== Page title ============ -->
-    <title>My Burger - Food & Restaurant</title>
-    <!--<< Favcion >>-->
-    <link rel="shortcut icon" href="assets/img/favicon.png">
-    <!--<< Bootstrap min.css >>-->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!--<< All Min Css >>-->
-    <link rel="stylesheet" href="assets/css/all.min.css">
-    <!--<< Animate.css >>-->
-    <link rel="stylesheet" href="assets/css/animate.css">
-    <!--<< Magnific Popup.css >>-->
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <!--<< MeanMenu.css >>-->
-    <link rel="stylesheet" href="assets/css/meanmenu.css">
-    <!--<< Swiper Bundle.css >>-->
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-    <!--<< Nice Select.css >>-->
-    <link rel="stylesheet" href="assets/css/nice-select.css">
-    <!--<< Main.css >>-->
-    <link rel="stylesheet" href="assets/css/main.css">
+@section('styles')
     <style>
         /* Severe Dark Mode Overrides */
         body,
@@ -813,81 +783,9 @@
             border-color: #d90429 !important;
         }
     </style>
-</head>
+@endsection
 
-<body class="bg-color2">
-
-    <!-- Preloader Start -->
-    <!-- Preloader Start -->
-    <!-- <div id="preloader" class="preloader">
-        <div class="animation-preloader">
-            <div class="spinner">
-            </div>
-            <div class="txt-loading">
-                <span data-text-preloader="M" class="letters-loading">
-                    M
-                </span>
-                <span data-text-preloader="Y" class="letters-loading">
-                    Y
-                </span>
-                <span data-text-preloader="-" class="letters-loading">
-                    &nbsp;
-                </span>
-                <span data-text-preloader="B" class="letters-loading">
-                    B
-                </span>
-                <span data-text-preloader="U" class="letters-loading">
-                    U
-                </span>
-                <span data-text-preloader="R" class="letters-loading">
-                    R
-                </span>
-                <span data-text-preloader="G" class="letters-loading">
-                    G
-                </span>
-                <span data-text-preloader="E" class="letters-loading">
-                    E
-                </span>
-                <span data-text-preloader="R" class="letters-loading">
-                    R
-                </span>
-            </div>
-            <p class="text-center">Loading</p>
-        </div>
-        <div class="loader">
-            <div class="row">
-                <div class="col-3 loader-section section-left">
-                    <div class="bg"></div>
-                </div>
-                <div class="col-3 loader-section section-left">
-                    <div class="bg"></div>
-                </div>
-                <div class="col-3 loader-section section-right">
-                    <div class="bg"></div>
-                </div>
-                <div class="col-3 loader-section section-right">
-                    <div class="bg"></div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    <!--<< Mouse Cursor Start >>-->
-    <div class="mouse-cursor cursor-outer"></div>
-    <div class="mouse-cursor cursor-inner"></div>
-
-    <!-- Back To Top Start -->
-    <button id="back-top" class="back-to-top">
-        <i class="fa-regular fa-arrow-up"></i>
-    </button>
-
-    <!-- Navbar Placeholder -->
-
-
-
-
-
-    <!-- Breadcumb Section   S T A R T -->
+@section('content')    <!-- Breadcumb Section   S T A R T -->
     <div class="breadcumb-section">
         <div class="breadcumb-wrapper">
             <div class="container">
@@ -1104,42 +1002,6 @@
     </div>
 
 
-    <!-- Footer Placeholder -->
-    <div id="footer-placeholder"></div>
 
-
-
-    <!--<< All JS Plugins >>-->
-    <script src="assets/js/jquery-3.7.1.min.js"></script>
-    <!--<< Bootstrap Js >>-->
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <!--<< Waypoints Js >>-->
-    <script src="assets/js/jquery.waypoints.js"></script>
-    <!--<< Counterup Js >>-->
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <!--<< Viewport Js >>-->
-    <script src="assets/js/viewport.jquery.js"></script>
-    <!--<< Magnific popup Js >>-->
-    <script src="assets/js/magnific-popup.min.js"></script>
-    <!--<< Tilt Js >>-->
-    <script src="assets/js/tilt.min.js"></script>
-    <!--<< Swiper Slider Js >>-->
-    <script src="assets/js/swiper-bundle.min.js"></script>
-    <!--<< MeanMenu Js >>-->
-    <script src="assets/js/jquery.meanmenu.min.js"></script>
-    <!--<< Wow Animation Js >>-->
-    <script src="assets/js/wow.min.js"></script>
-    <!--<< Nice Select Js >>-->
-    <script src="assets/js/nice-select.min.js"></script>
-    <!--<< Main.js >>-->
-    <script src="assets/js/main.js"></script>
-    <!-- Components Loader -->
-    <script src="assets/js/components-loader.js"></script>
-</body>
-
-
-<!-- Mirrored from gramentheme.com/html/fresheat/shop-right-sidebar.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 23 Jul 2025 07:05:53 GMT -->
-
-</html>
     
 @endsection

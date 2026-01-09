@@ -22,7 +22,8 @@ class OrderController extends Controller
         $cartItems = \App\Models\Cart::where('user_id', $userId)->get();
 
         if ($cartItems->isEmpty()) {
-            return redirect()->back()->with('error', 'Your cart is empty.');
+            \RealRashid\SweetAlert\Facades\Alert::error('Error', 'Your cart is empty.');
+            return redirect()->back();
         }
 
         $totalAmount = 0;
@@ -56,6 +57,7 @@ class OrderController extends Controller
 
         \App\Models\Cart::where('user_id', $userId)->delete();
 
-        return redirect()->route('shop')->with('success', 'Order placed successfully! Order ID: ' . $order->id);
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Order placed successfully! Order ID: ' . $order->id);
+        return redirect()->route('shop');
     }
 }

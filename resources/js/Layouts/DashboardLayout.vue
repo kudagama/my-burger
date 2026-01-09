@@ -35,6 +35,47 @@ watch(() => page.props.flash, (flash) => {
             color: '#fff'
         });
     }
+
+    if (flash?.sweet_alert) {
+        let alerts = flash.sweet_alert;
+        try {
+            if (typeof alerts === 'string') {
+                alerts = JSON.parse(alerts);
+            }
+        } catch (e) {
+            console.error('Error parsing sweet_alert data', e);
+        }
+
+        if (Array.isArray(alerts)) {
+            alerts.forEach(alert => {
+                 Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: alert.timer || 3000,
+                    timerProgressBar: true,
+                    icon: alert.type || 'info',
+                    title: alert.title,
+                    text: alert.text,
+                    background: '#1f2937',
+                    color: '#fff'
+                 });
+            });
+        } else if (typeof alerts === 'object' && alerts !== null) {
+             Swal.fire({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: alerts.timer || 3000,
+                timerProgressBar: true,
+                icon: alerts.type || 'info',
+                title: alerts.title,
+                text: alerts.text,
+                background: '#1f2937',
+                color: '#fff'
+            });
+        }
+    }
 }, { deep: true });
 </script>
 

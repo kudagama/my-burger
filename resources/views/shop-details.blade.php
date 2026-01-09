@@ -1,23 +1,6 @@
 @extends('layouts.master')
-@section('content')
-<!DOCTYPE html>
-<html lang="zxx">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $product->name }} - My Burger</title>
-    
-    <!-- CSS Dependencies from shop.blade.php -->
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/meanmenu.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/nice-select.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
-
+@section('styles')
     <style>
          /* Include Dark Mode Styles from shop.blade.php */
          body, html, .body-bg, .bg-color2, .white-bg, .section-bg, .gray-bg, .bg-white, .bg-color3 {
@@ -117,12 +100,9 @@
         .recent-content .offer-price { color: #d90429 !important; font-weight: bold; }
 
     </style>
-</head>
+@endsection
 
-<body class="bg-color2">
-    <div class="mouse-cursor cursor-outer"></div>
-    <div class="mouse-cursor cursor-inner"></div>
-
+@section('content')
     <!-- Breadcrumb -->
     <div class="breadcumb-section" style="background-image: url('{{ asset('assets/img/banner/breadcumb.jpg') }}');">
         <div class="breadcumb-wrapper">
@@ -165,11 +145,7 @@
                                         {{ $product->description }}
                                     </div>
                                     
-                                    @if(session('success'))
-                                        <div class="alert alert-success mb-3">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
+                                    {{-- Removed manual session alert since SweetAlert is now globally active --}}
 
                                     <style>
                                         /* Component specific styles to ensure premium look */
@@ -293,14 +269,4 @@
             </div>
         </div>
     </section>
-
-    <div id="footer-placeholder"></div>
-
-    <!-- Scripts -->
-    <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-    <script src="{{ asset('assets/js/components-loader.js') }}"></script>
-</body>
-</html>
 @endsection

@@ -41,6 +41,7 @@ class CartController extends Controller
             return redirect()->route('checkout');
         }
 
-        return redirect()->back()->with('success', 'Product added to cart!');
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Product added to cart!');
+        return redirect()->back();
     }
 }

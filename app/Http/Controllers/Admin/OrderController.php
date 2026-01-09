@@ -31,6 +31,7 @@ class OrderController extends Controller
         $order->status = $request->status;
         $order->save();
 
-        return back()->with('success', 'Order status updated successfully.');
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Order status updated successfully.');
+        return back();
     }
 }

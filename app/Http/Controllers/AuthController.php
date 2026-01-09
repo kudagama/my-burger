@@ -24,6 +24,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
 
+            \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Logged in successfully!');
             return redirect()->intended(route('home'));
         }
 
@@ -55,6 +56,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Registered successfully!');
         return redirect(route('home'));
     }
 
@@ -66,6 +68,7 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Logged out successfully!');
         return redirect(route('home'));
     }
 
@@ -92,6 +95,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'Profile updated successfully.');
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Profile updated successfully.');
+        return back();
     }
 }

@@ -51,7 +51,8 @@ class ProductController extends Controller
             'image' => $imagePath ? '/storage/' . $imagePath : null,
         ]);
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Product created successfully.');
+        return redirect()->route('products.index');
     }
 
     public function edit($id)

@@ -20,7 +20,8 @@ class CategoryController extends Controller
             'slug' => Str::slug($request->name),
         ]);
 
-        return back()->with('success', 'Category created successfully.');
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Category created successfully.');
+        return back();
     }
     
     public function destroy($id)
@@ -28,6 +29,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
         
-        return back()->with('success', 'Category deleted successfully.');
+        \RealRashid\SweetAlert\Facades\Alert::success('Success', 'Category deleted successfully.');
+        return back();
     }
 }
